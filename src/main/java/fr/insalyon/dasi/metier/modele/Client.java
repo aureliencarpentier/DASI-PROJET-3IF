@@ -7,7 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -29,8 +30,11 @@ public class Client implements Serializable {
     private String motDePasse;
     private String codePostal;
     private String numeroTelephone;    
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateNaissance;
     private Sexe sexe;
+    @OneToOne
+    private ProfilAstral profil;
     
     protected Client() {
     }
