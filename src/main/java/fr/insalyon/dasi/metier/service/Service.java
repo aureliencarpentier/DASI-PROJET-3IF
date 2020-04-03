@@ -24,7 +24,7 @@ public class Service {
             JpaUtil.validerTransaction();
             resultat = client.getId();
         } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service inscrireClient(client)", ex);
+            Logger.getAnonymousLogger().log(Level.WARNING, " Exception lors de l'appel au Service inscrireClient(client)", ex);
             JpaUtil.annulerTransaction();
             resultat = null;
         } finally {
