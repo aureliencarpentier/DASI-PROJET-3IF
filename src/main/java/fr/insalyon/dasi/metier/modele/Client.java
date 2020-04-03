@@ -1,16 +1,21 @@
 package fr.insalyon.dasi.metier.modele;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+
 /**
  *
  * @author DASI Team
  */
+
+
+        
 @Entity
 public class Client implements Serializable {
 
@@ -22,15 +27,23 @@ public class Client implements Serializable {
     @Column(unique = true)
     private String mail;
     private String motDePasse;
-
+    private String codePostal;
+    private String numeroTelephone;    
+    private Date dateNaissance;
+    private Sexe sexe;
+    
     protected Client() {
     }
 
-    public Client(String nom, String prenom, String mail, String motDePasse) {
+    public Client(String nom, String prenom, String mail, String motDePasse, Sexe sexe, String code, String numero, Date date) {
         this.nom = nom;
         this.prenom = prenom;
         this.mail = mail;
         this.motDePasse = motDePasse;
+        this.sexe = sexe;
+        this.codePostal = code;
+        this.dateNaissance = date;
+        this.numeroTelephone = numero;
     }
 
     public Long getId() {
@@ -68,10 +81,42 @@ public class Client implements Serializable {
     public void setMotDePasse(String motDePasse) {
         this.motDePasse = motDePasse;
     }
+    
+    public Date getDate() {
+        return this.dateNaissance;
+    }
 
+    public void setDate(Date date) {
+        this.dateNaissance = date;
+    }   
+    
+    public Sexe getSexe() {
+        return this.sexe;
+    }
+
+    public void setSexe(Sexe sexe) {
+        this.sexe = sexe;
+    }
+
+    public String getNumero() {
+        return this.numeroTelephone;
+    }
+
+    public void setNumero(String numero) {
+        this.numeroTelephone = numero;
+    }
+    
+        public String getCodePostal() {
+        return this.codePostal;
+    }
+
+    public void setCodePostal(String code) {
+        this.codePostal = code;
+    }
+    
     @Override
     public String toString() {
-        return "Client : id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", mail=" + mail + ", motDePasse=" + motDePasse;
+        return "Client : id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", mail=" + mail + ", motDePasse=" + motDePasse + ", code postal=" + codePostal + ", numero de Telephone=" + numeroTelephone + ", Sexe=" + sexe + ",Date de naissance=" + dateNaissance;
     }
     
 

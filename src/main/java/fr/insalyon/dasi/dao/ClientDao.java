@@ -16,6 +16,18 @@ public class ClientDao {
         em.persist(client);
     }
     
+    public Boolean verifierEmailClient (String adresseMail){
+        Boolean verification = false;
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        TypedQuery<Client> query = em.createQuery("SELECT c FROM Client c WHERE c.mail = :mail", Client.class);
+        query.setParameter("mail", adresseMail); // correspond au paramètre ":mail" dans la requête
+        List<Client> clients = query.getResultList();
+        if (!clients.isEmpty()) {
+            verification = true;
+        }
+        return verification;
+    }
+    
     public Client chercherParId(Long clientId) {
         EntityManager em = JpaUtil.obtenirContextePersistance();
         return em.find(Client.class, clientId); // renvoie null si l'identifiant n'existe pas

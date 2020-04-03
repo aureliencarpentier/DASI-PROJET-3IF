@@ -43,7 +43,7 @@ public class Main {
         System.out.println("**** initialiserClients() ****");
         System.out.println();
         
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DASI-PROJET-PU");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
         EntityManager em = emf.createEntityManager();
 
         Client ada = new Client("Lovelace", "Ada", "ada.lovelace@insa-lyon.fr", "Ada1012");
