@@ -23,9 +23,15 @@ public class Service {
         JpaUtil.creerContextePersistance();
         try {
             JpaUtil.ouvrirTransaction();
+            if(verifierMail(client.getMail())){
             clientDao.creer(client);
-            JpaUtil.validerTransaction();
+                        JpaUtil.validerTransaction();
             resultat = client.getId();
+            }
+            else {
+                throw new Exception (" L'email existe déjà ");
+            }
+
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, " Exception lors de l'appel au Service inscrireClient(client)", ex);
             JpaUtil.annulerTransaction();
@@ -34,6 +40,15 @@ public class Service {
             JpaUtil.fermerContextePersistance();
         }
         return resultat;
+    }
+    
+    public Boolean verifierMail(String mail){
+        Boolean verification = false;
+        Client c = clientDao.chercherParMail(mail) ;
+        if (c == null){
+            verification = true;
+        }
+        return verification;
     }
 
     public Client rechercherClientParId(Long id) {
@@ -50,7 +65,7 @@ public class Service {
         return resultat;
     }
 
-    public Client authentifierClient(String mail, String motDePasse) {
+    public Client connecterClient(String mail, String motDePasse) {
         Client resultat = null;
         JpaUtil.creerContextePersistance();
         try {
