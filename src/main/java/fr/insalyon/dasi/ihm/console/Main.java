@@ -29,7 +29,7 @@ public class Main {
 
         initialiserClients();            // Question 3
         testerInscriptionClient();       // Question 4 & 5
-        testerRechercheClient();         // Question 6
+        //testerRechercheClient();         // Question 6
         testerListeClients();            // Question 7
         testerAuthentificationClient();  // Question 8
         //saisirInscriptionClient();       // Question 9
@@ -93,24 +93,15 @@ public class Main {
                 
         Sexe sexe = Sexe.F;
         Date date = new Date();
-        ProfilAstral profil = new ProfilAstral("cancer","Dragon de metal","Turquoise","Chatte");
-        Client ada = new Client("Lovelace", "Ada", "ada.lovelace@insa-lyon.fr", "Ada1012",sexe,"75019","0695227164",date,profil);
-        Long idAda = service.inscrireClient(ada);
-        if (idAda != null) {
+        ProfilAstral profil = new ProfilAstral("verseau","tigre de terre","blanc","pigeon");
+        Client pierre = new Client("dupont", "pierre", "pierre@insa-lyon.fr", "pierre123",sexe,"06230","0655555555",date,profil);
+        Long idPierre = service.inscrireClient(pierre);
+        if (idPierre != null) {
             System.out.println("> Succès inscription");
         } else {
             System.out.println("> Échec inscription");
         }
-        afficherClient(ada);
-
-        Client adabis = new Client("Lovelacebis", "Adabis", "ada.lovelacebis@insa-lyon.fr", "Ada1012bis",sexe,"75019bis","0695227164bis",date,profil);
-        Long idAdabis = service.inscrireClient(adabis);
-        if (idAdabis != null) {
-            System.out.println("> Succès inscription");
-        } else {
-            System.out.println("> Échec inscription");
-        }
-        afficherClient(adabis);
+        afficherClient(pierre);
     }
 
     public static void testerRechercheClient() {
@@ -181,18 +172,8 @@ public class Main {
         String mail;
         String motDePasse;
 
-        mail = "ada.lovelace@insa-lyon.fr";
-        motDePasse = "Ada1012";
-        client = service.connecterClient(mail, motDePasse);
-        if (client != null) {
-            System.out.println("Authentification réussie avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
-            afficherClient(client);
-        } else {
-            System.out.println("Authentification échouée avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
-        }
-
-        mail = "ada.lovelace@insa-lyon.fr";
-        motDePasse = "Ada2020";
+        mail = "pierre@insa-lyon.fr";
+        motDePasse = "pierre123";
         client = service.connecterClient(mail, motDePasse);
         if (client != null) {
             System.out.println("Authentification réussie avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
