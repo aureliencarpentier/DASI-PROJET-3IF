@@ -2,6 +2,7 @@ package fr.insalyon.dasi.metier.modele;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,7 +34,7 @@ public class Client implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateNaissance;
     private Sexe sexe;
-    @OneToOne
+    @OneToOne(cascade=CascadeType.PERSIST)
     private ProfilAstral profil;
     
     protected Client() {
