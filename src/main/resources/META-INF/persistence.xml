@@ -3,6 +3,7 @@
   <persistence-unit name="PredictifTP" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>fr.insalyon.dasi.metier.modele.Client</class>
+    <class>fr.insalyon.dasi.metier.modele.ProfilAstral</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/PredictifTP"/>
       <property name="javax.persistence.jdbc.user" value="mariogancarski"/>

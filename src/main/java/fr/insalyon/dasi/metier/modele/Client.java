@@ -39,7 +39,7 @@ public class Client implements Serializable {
     protected Client() {
     }
 
-    public Client(String nom, String prenom, String mail, String motDePasse, Sexe sexe, String code, String numero, Date date) {
+    public Client(String nom, String prenom, String mail, String motDePasse, Sexe sexe, String code, String numero, Date date, ProfilAstral profil) {
         this.nom = nom;
         this.prenom = prenom;
         this.mail = mail;
@@ -48,6 +48,31 @@ public class Client implements Serializable {
         this.codePostal = code;
         this.dateNaissance = date;
         this.numeroTelephone = numero;
+        this.profil = profil;
+    }
+
+    public String getNumeroTelephone() {
+        return numeroTelephone;
+    }
+
+    public void setNumeroTelephone(String numeroTelephone) {
+        this.numeroTelephone = numeroTelephone;
+    }
+
+    public Date getDateNaissance() {
+        return dateNaissance;
+    }
+
+    public void setDateNaissance(Date dateNaissance) {
+        this.dateNaissance = dateNaissance;
+    }
+
+    public ProfilAstral getProfil() {
+        return profil;
+    }
+
+    public void setProfil(ProfilAstral profil) {
+        this.profil = profil;
     }
 
     public Long getId() {
@@ -101,7 +126,7 @@ public class Client implements Serializable {
     public void setSexe(Sexe sexe) {
         this.sexe = sexe;
     }
-
+    
     public String getNumero() {
         return this.numeroTelephone;
     }
@@ -110,7 +135,7 @@ public class Client implements Serializable {
         this.numeroTelephone = numero;
     }
     
-        public String getCodePostal() {
+    public String getCodePostal() {
         return this.codePostal;
     }
 
@@ -120,7 +145,10 @@ public class Client implements Serializable {
     
     @Override
     public String toString() {
-        return "Client : id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", mail=" + mail + ", motDePasse=" + motDePasse + ", code postal=" + codePostal + ", numero de Telephone=" + numeroTelephone + ", Sexe=" + sexe + ",Date de naissance=" + dateNaissance;
+        return "Client : id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", "
+                + "mail=" + mail + ", motDePasse=" + motDePasse + ", code postal=" 
+                + codePostal + ", numero de Telephone=" + numeroTelephone + ", Sexe=" 
+                + sexe + ",Date de naissance=" + dateNaissance + ",Profil Astral=" + profil;
     }
     
 

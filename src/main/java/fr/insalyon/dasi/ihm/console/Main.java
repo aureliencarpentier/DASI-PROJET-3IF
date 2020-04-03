@@ -2,13 +2,18 @@ package fr.insalyon.dasi.ihm.console;
 
 import fr.insalyon.dasi.dao.JpaUtil;
 import fr.insalyon.dasi.metier.modele.Client;
+import fr.insalyon.dasi.metier.modele.ProfilAstral;
+import fr.insalyon.dasi.metier.modele.Sexe;
 import fr.insalyon.dasi.metier.service.Service;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+
 
 /**
  *
@@ -45,23 +50,20 @@ public class Main {
         
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
         EntityManager em = emf.createEntityManager();
-
-        Client ada = new Client("Lovelace", "Ada", "ada.lovelace@insa-lyon.fr", "Ada1012");
-        Client blaise = new Client("Pascal", "Blaise", "blaise.pascal@insa-lyon.fr", "Blaise1906");
-        Client fred = new Client("Fotiadu", "Frédéric", "frederic.fotiadu@insa-lyon.fr", "INSA-Forever");
         
+        Sexe sexe = Sexe.F;
+        Date date = new Date();
+        ProfilAstral profil = new ProfilAstral("cancer","Dragon de metal","Turquoise","Chatte");
+        Client ada = new Client("Lovelace", "Ada", "ada.lovelace@insa-lyon.fr", "Ada1012",sexe,"75019","0695227164",date,profil);
+
         System.out.println();
-        System.out.println("** Clients avant persistance: ");
+        System.out.println("** Client avant persistance: ");
         afficherClient(ada);
-        afficherClient(blaise);
-        afficherClient(fred);
         System.out.println();
 
         try {
             em.getTransaction().begin();
             em.persist(ada);
-            em.persist(blaise);
-            em.persist(fred);
             em.getTransaction().commit();
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service", ex);
@@ -78,8 +80,6 @@ public class Main {
         System.out.println();
         System.out.println("** Clients après persistance: ");
         afficherClient(ada);
-        afficherClient(blaise);
-        afficherClient(fred);
         System.out.println();
     }
 
@@ -90,32 +90,27 @@ public class Main {
         System.out.println();
         
         Service service = new Service();
-        Client claude = new Client("Chappe", "Claude", "claude.chappe@insa-lyon.fr", "HaCKeR");
-        Long idClaude = service.inscrireClient(claude);
-        if (idClaude != null) {
+                
+        Sexe sexe = Sexe.F;
+        Date date = new Date();
+        ProfilAstral profil = new ProfilAstral("cancer","Dragon de metal","Turquoise","Chatte");
+        Client ada = new Client("Lovelace", "Ada", "ada.lovelace@insa-lyon.fr", "Ada1012",sexe,"75019","0695227164",date,profil);
+        Long idAda = service.inscrireClient(ada);
+        if (idAda != null) {
             System.out.println("> Succès inscription");
         } else {
             System.out.println("> Échec inscription");
         }
-        afficherClient(claude);
+        afficherClient(ada);
 
-        Client hedy = new Client("Lamarr", "Hedy", "hlamarr@insa-lyon.fr", "WiFi");
-        Long idHedy = service.inscrireClient(hedy);
-        if (idHedy != null) {
+        Client adabis = new Client("Lovelacebis", "Adabis", "ada.lovelacebis@insa-lyon.fr", "Ada1012bis",sexe,"75019bis","0695227164bis",date,profil);
+        Long idAdabis = service.inscrireClient(adabis);
+        if (idAdabis != null) {
             System.out.println("> Succès inscription");
         } else {
             System.out.println("> Échec inscription");
         }
-        afficherClient(hedy);
-
-        Client hedwig = new Client("Lamarr", "Hedwig Eva Maria", "hlamarr@insa-lyon.fr", "WiFi");
-        Long idHedwig = service.inscrireClient(hedwig);
-        if (idHedwig != null) {
-            System.out.println("> Succès inscription");
-        } else {
-            System.out.println("> Échec inscription");
-        }
-        afficherClient(hedwig);
+        afficherClient(adabis);
     }
 
     public static void testerRechercheClient() {
@@ -188,7 +183,7 @@ public class Main {
 
         mail = "ada.lovelace@insa-lyon.fr";
         motDePasse = "Ada1012";
-        client = service.authentifierClient(mail, motDePasse);
+        client = service.connecterClient(mail, motDePasse);
         if (client != null) {
             System.out.println("Authentification réussie avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
             afficherClient(client);
@@ -198,7 +193,7 @@ public class Main {
 
         mail = "ada.lovelace@insa-lyon.fr";
         motDePasse = "Ada2020";
-        client = service.authentifierClient(mail, motDePasse);
+        client = service.connecterClient(mail, motDePasse);
         if (client != null) {
             System.out.println("Authentification réussie avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
             afficherClient(client);
@@ -208,7 +203,7 @@ public class Main {
 
         mail = "etudiant.fictif@insa-lyon.fr";
         motDePasse = "********";
-        client = service.authentifierClient(mail, motDePasse);
+        client = service.connecterClient(mail, motDePasse);
         if (client != null) {
             System.out.println("Authentification réussie avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
             afficherClient(client);
@@ -235,7 +230,10 @@ public class Main {
         String mail = Saisie.lireChaine("Mail ? ");
         String motDePasse = Saisie.lireChaine("Mot de passe ? ");
 
-        Client client = new Client(nom, prenom, mail, motDePasse);
+        Sexe sexe = Sexe.F;
+        Date date = Date.from(Instant.MIN);
+        ProfilAstral profil = new ProfilAstral("cancer","Dragon de metal","Turquoise","Chatte");
+        Client client = new Client(nom, prenom, mail, motDePasse, sexe,"75019","0695227164",date,profil);;
         Long idClient = service.inscrireClient(client);
 
         if (idClient != null) {
@@ -292,7 +290,7 @@ public class Main {
 
         while (!clientMail.equals("0")) {
             String clientMotDePasse = Saisie.lireChaine("Mot de passe ? ");
-            Client client = service.authentifierClient(clientMail, clientMotDePasse);
+            Client client = service.connecterClient(clientMail, clientMotDePasse);
             if (client != null) {
                 afficherClient(client);
             } else {
