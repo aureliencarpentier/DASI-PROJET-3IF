@@ -6,15 +6,19 @@
 package fr.insalyon.dasi.metier.modele;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
  * @author Utilisateur
  */
+@Entity
 public class Medium implements Serializable {
 
     enum Statut {
@@ -29,11 +33,22 @@ public class Medium implements Serializable {
     private String denomination;
     private Sexe genre;
     private String presentation;
+    @OneToMany
+    private List<Consultation> consultations;
+    
 
-    public Medium(String denomination, Sexe genre, String presentation) {
+    public Medium(String denomination, Sexe genre, String presentation, List<Consultation> consultations) {
         this.denomination = denomination;
         this.genre = genre;
         this.presentation = presentation;
+        this.consultations = consultations;
+    }
+
+    public Medium() {
+    }
+
+    public List<Consultation> getConsultations() {
+        return consultations;
     }
 
     public long getId() {

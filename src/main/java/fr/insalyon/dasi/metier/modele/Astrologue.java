@@ -6,18 +6,28 @@
 package fr.insalyon.dasi.metier.modele;
 
 import java.util.Date;
+import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author Utilisateur
  */
+@Entity
 public class Astrologue extends Medium {
     
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date promotion;
     private String formation;
-    
-    public Astrologue(String denomination, Sexe genre, String presentation, Date promotion, String formation) {
-        super(denomination, genre, presentation);
+
+    public Astrologue(String denomination, Sexe genre, String presentation, List<Consultation> consultations) {
+        super(denomination, genre, presentation, consultations);
+    }
+
+   
+    public Astrologue(String denomination, Sexe genre, String presentation, Date promotion, String formation, List<Consultation> consultations) {
+        super(denomination, genre, presentation,consultations);
         this.promotion = promotion;
         this.formation = formation;
     }
