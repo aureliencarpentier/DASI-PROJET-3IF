@@ -6,6 +6,8 @@ import fr.insalyon.dasi.metier.modele.Client;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import fr.insalyon.dasi.dao.EmployeDao;
+import fr.insalyon.dasi.metier.modele.Employe;
 
 /**
  *
@@ -14,6 +16,7 @@ import java.util.logging.Logger;
 public class Service {
 
     protected ClientDao clientDao = new ClientDao();
+    protected EmployeDao employeDao = new EmployeDao();
 
     public Long inscrireClient(Client client) {
         Long resultat = null;
@@ -75,6 +78,28 @@ public class Service {
             resultat = clientDao.listerClients();
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listerClients()", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
+    
+    
+    public Employe authentifierEmploye(String mail, String motDePasse) {
+        Employe resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            // Recherche du client
+            Employe employe = employeDao.chercherParMail(mail);
+            if (employe != null) {
+                // Vérification du mot de passe
+                if (employe.getMotDePasse().equals(motDePasse)) {
+                    resultat = employe;
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service authentifierEmploye(mail,motDePasse)", ex);
             resultat = null;
         } finally {
             JpaUtil.fermerContextePersistance();
