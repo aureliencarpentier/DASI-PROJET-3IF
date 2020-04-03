@@ -19,6 +19,11 @@ import javax.persistence.Id;
 @Entity
 public class Employe implements Serializable {
     
+    enum Statut {
+        OCCUPE,
+        LIBRE
+    }
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -30,10 +35,14 @@ public class Employe implements Serializable {
     private String numeroTelephone;
     private String motDePasse;
     private int nombreConsultation;
-    private Enum statut;
+    private Statut statut;
+    
+    protected Employe() {
+        
+    }
     
     
-    public Employe(String nom, String prenom, String email, Sexe sexe, String numeroTelephone, String motDePasse, int nombreConsultation, Enum statut) {
+    public Employe(String nom, String prenom, String email, Sexe sexe, String numeroTelephone, String motDePasse, int nombreConsultation, Statut statut) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
@@ -100,11 +109,11 @@ public class Employe implements Serializable {
         this.nombreConsultation = nombreConsultation;
     }
 
-    public Enum getStatut() {
+    public Statut getStatut() {
         return statut;
     }
 
-    public void setStatut(Enum statut) {
+    public void setStatut(Statut statut) {
         this.statut = statut;
     }
 }

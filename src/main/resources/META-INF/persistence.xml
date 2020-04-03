@@ -4,6 +4,7 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>fr.insalyon.dasi.metier.modele.Client</class>
     <class>fr.insalyon.dasi.metier.modele.ProfilAstral</class>
+    <class>fr.insalyon.dasi.metier.modele.Employe</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/DASI-PROJET-DB"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
