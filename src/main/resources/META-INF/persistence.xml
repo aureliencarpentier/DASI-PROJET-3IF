@@ -5,11 +5,9 @@
     <class>fr.insalyon.dasi.metier.modele.Client</class>
     <class>fr.insalyon.dasi.metier.modele.ProfilAstral</class>
     <class>fr.insalyon.dasi.metier.modele.Employe</class>
-<<<<<<< HEAD
-=======
+
     <class>fr.insalyon.dasi.metier.modele.Consultation</class>
     <class>fr.insalyon.dasi.metier.modele.Medium</class>
->>>>>>> 45f187ae4665679873525b6248bab81fc651831c
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/DASI-PROJET-DB"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
