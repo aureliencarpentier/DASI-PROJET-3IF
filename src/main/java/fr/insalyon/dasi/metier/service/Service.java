@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import fr.insalyon.dasi.dao.EmployeDao;
 import fr.insalyon.dasi.metier.modele.Employe;
+import fr.insalyon.dasi.metier.modele.Sexe;
 
 /**
  *
@@ -23,13 +24,12 @@ public class Service {
         JpaUtil.creerContextePersistance();
         try {
             JpaUtil.ouvrirTransaction();
-            if(verifierMail(client.getMail())){
-            clientDao.creer(client);
-                        JpaUtil.validerTransaction();
-            resultat = client.getId();
-            }
-            else {
-                throw new Exception (" L'email existe déjà ");
+            if (verifierMail(client.getMail())) {
+                clientDao.creer(client);
+                JpaUtil.validerTransaction();
+                resultat = client.getId();
+            } else {
+                throw new Exception(" L'email existe déjà ");
             }
 
         } catch (Exception ex) {
@@ -41,11 +41,11 @@ public class Service {
         }
         return resultat;
     }
-    
-    public Boolean verifierMail(String mail){
+
+    public Boolean verifierMail(String mail) {
         Boolean verification = false;
-        Client c = clientDao.chercherParMail(mail) ;
-        if (c == null){
+        Client c = clientDao.chercherParMail(mail);
+        if (c == null) {
             verification = true;
         }
         return verification;
@@ -99,9 +99,8 @@ public class Service {
         }
         return resultat;
     }
-    
-    
-    public Employe authentifierEmploye(String mail, String motDePasse) {
+
+    public Employe connecterEmploye(String mail, String motDePasse) {
         Employe resultat = null;
         JpaUtil.creerContextePersistance();
         try {
@@ -120,5 +119,28 @@ public class Service {
             JpaUtil.fermerContextePersistance();
         }
         return resultat;
+    }
+
+    public Client modifierProfilClient(String mail, String nom, String prenom, String motDePasse, Sexe sexe, String code, String numero) {
+
+        JpaUtil.creerContextePersistance();
+        Client client = null;
+        try {
+            client = clientDao.chercherParMail(mail);
+            if (client != null) {
+                client.setNom(nom);
+                client.setPrenom(prenom);
+                client.setMotDePasse(motDePasse);
+                client.setSexe(sexe);
+                client.setCodePostal(code);
+                client.setNumero(numero);
+            }
+
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service modifierProfilClient()", ex);
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return client;
     }
 }
