@@ -2,12 +2,14 @@ package fr.insalyon.dasi.metier.modele;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
@@ -36,11 +38,13 @@ public class Client implements Serializable {
     private Sexe sexe;
     @OneToOne(cascade=CascadeType.PERSIST)
     private ProfilAstral profil;
+    @OneToMany
+    private List<Consultation> consultations;
     
     protected Client() {
     }
 
-    public Client(String nom, String prenom, String mail, String motDePasse, Sexe sexe, String code, String numero, Date date, ProfilAstral profil) {
+    public Client(String nom, String prenom, String mail, String motDePasse, Sexe sexe, String code, String numero, Date date, ProfilAstral profil, List<Consultation> consultations) {
         this.nom = nom;
         this.prenom = prenom;
         this.mail = mail;
@@ -50,6 +54,15 @@ public class Client implements Serializable {
         this.dateNaissance = date;
         this.numeroTelephone = numero;
         this.profil = profil;
+        this.consultations = consultations;
+    }
+
+    public List<Consultation> getConsultations() {
+        return consultations;
+    }
+
+    public void setConsultations(List<Consultation> consultations) {
+        this.consultations = consultations;
     }
 
     public String getNumeroTelephone() {
@@ -149,7 +162,7 @@ public class Client implements Serializable {
         return "Client : id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", "
                 + "mail=" + mail + ", motDePasse=" + motDePasse + ", code postal=" 
                 + codePostal + ", numero de Telephone=" + numeroTelephone + ", Sexe=" 
-                + sexe + ",Date de naissance=" + dateNaissance + ",Profil Astral=" + profil;
+                + sexe + ",Date de naissance=" + dateNaissance + ",Profil Astral=" + profil + ", Consultations =" + consultations;
     }
     
 

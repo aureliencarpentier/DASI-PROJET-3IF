@@ -5,12 +5,16 @@
  */
 package fr.insalyon.dasi.metier.modele;
 
+import java.util.List;
+import javax.persistence.Entity;
+
 /**
  *
  * @author Utilisateur
  */
+@Entity
 public class Cartomancien extends Medium {
-    public Cartomancien(String denomination, Sexe genre, String presentation) {
-        super(denomination, genre, presentation);
+    public Cartomancien(String denomination, Sexe genre, String presentation, List<Consultation> consultations) {
+        super(denomination, genre, presentation, consultations);
     }
 }   

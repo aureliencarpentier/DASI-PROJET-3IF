@@ -6,11 +6,13 @@
 package fr.insalyon.dasi.metier.modele;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -18,31 +20,32 @@ import javax.persistence.Id;
  */
 @Entity
 public class Employe implements Serializable {
-    
+
     enum Statut {
         OCCUPE,
-        LIBRE
+        LIBRE;
     }
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String nom;
     private String prenom;
-    @Column(unique=true)
+    @Column(unique = true)
     private String email;
     private Sexe sexe;
     private String numeroTelephone;
     private String motDePasse;
     private int nombreConsultation;
     private Statut statut;
-    
+    @OneToMany
+    private List<Consultation> consultations;
+
     protected Employe() {
-        
+
     }
-    
-    
-    public Employe(String nom, String prenom, String email, Sexe sexe, String numeroTelephone, String motDePasse, int nombreConsultation, Statut statut) {
+
+    public Employe(String nom, String prenom, String email, Sexe sexe, String numeroTelephone, String motDePasse, int nombreConsultation, Statut statut, List<Consultation> consultations) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
@@ -51,6 +54,11 @@ public class Employe implements Serializable {
         this.motDePasse = motDePasse;
         this.nombreConsultation = nombreConsultation;
         this.statut = statut;
+        this.consultations = consultations;
+    }
+
+    public void setConsultations(List<Consultation> consultations) {
+        this.consultations = consultations;
     }
 
     public String getNom() {

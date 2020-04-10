@@ -2,10 +2,12 @@ package fr.insalyon.dasi.ihm.console;
 
 import fr.insalyon.dasi.dao.JpaUtil;
 import fr.insalyon.dasi.metier.modele.Client;
+import fr.insalyon.dasi.metier.modele.Consultation;
 import fr.insalyon.dasi.metier.modele.ProfilAstral;
 import fr.insalyon.dasi.metier.modele.Sexe;
 import fr.insalyon.dasi.metier.service.Service;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -54,7 +56,8 @@ public class Main {
         Sexe sexe = Sexe.F;
         Date date = new Date();
         ProfilAstral profil = new ProfilAstral("cancer","Dragon de metal","Turquoise","Chatte");
-        Client ada = new Client("Lovelace", "Ada", "ada.lovelace@insa-lyon.fr", "Ada1012",sexe,"75019","0695227164",date,profil);
+        List<Consultation> consultations = new ArrayList<>();
+        Client ada = new Client("Lovelace", "Ada", "ada.lovelace@insa-lyon.fr", "Ada1012",sexe,"75019","0695227164",date,profil,consultations);
 
         System.out.println();
         System.out.println("** Client avant persistance: ");
@@ -94,7 +97,8 @@ public class Main {
         Sexe sexe = Sexe.F;
         Date date = new Date();
         ProfilAstral profil = new ProfilAstral("verseau","tigre de terre","blanc","pigeon");
-        Client pierre = new Client("dupont", "pierre", "pierre@insa-lyon.fr", "pierre123",sexe,"06230","0655555555",date,profil);
+        List<Consultation> consultations = new ArrayList<>();
+        Client pierre = new Client("dupont", "pierre", "pierre@insa-lyon.fr", "pierre123",sexe,"06230","0655555555",date,profil,consultations);
         Long idPierre = service.inscrireClient(pierre);
         if (idPierre != null) {
             System.out.println("> Succès inscription");
@@ -214,7 +218,8 @@ public class Main {
         Sexe sexe = Sexe.F;
         Date date = Date.from(Instant.MIN);
         ProfilAstral profil = new ProfilAstral("cancer","Dragon de metal","Turquoise","Chatte");
-        Client client = new Client(nom, prenom, mail, motDePasse, sexe,"75019","0695227164",date,profil);;
+        List<Consultation> consultations = new ArrayList<>();
+        Client client = new Client(nom, prenom, mail, motDePasse, sexe,"75019","0695227164",date,profil, consultations);
         Long idClient = service.inscrireClient(client);
 
         if (idClient != null) {
