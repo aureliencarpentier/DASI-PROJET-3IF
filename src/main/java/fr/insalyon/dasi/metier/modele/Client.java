@@ -3,7 +3,6 @@ package fr.insalyon.dasi.metier.modele;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -139,14 +138,6 @@ public class Client implements Serializable {
 
     public void setSexe(Sexe sexe) {
         this.sexe = sexe;
-    }
-    
-    public String getNumero() {
-        return this.numeroTelephone;
-    }
-
-    public void setNumero(String numero) {
-        this.numeroTelephone = numero;
     }
     
     public String getCodePostal() {

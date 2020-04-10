@@ -1,6 +1,7 @@
 package fr.insalyon.dasi.metier.service;
 
 import fr.insalyon.dasi.dao.ClientDao;
+import fr.insalyon.dasi.dao.ConsultationDao;
 import fr.insalyon.dasi.dao.JpaUtil;
 import fr.insalyon.dasi.metier.modele.Client;
 import java.util.List;
@@ -8,9 +9,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import fr.insalyon.dasi.dao.EmployeDao;
 import fr.insalyon.dasi.dao.ProfilAstralDao;
+import fr.insalyon.dasi.metier.modele.Consultation;
 import fr.insalyon.dasi.metier.modele.Employe;
+import fr.insalyon.dasi.metier.modele.Medium;
 import fr.insalyon.dasi.metier.modele.ProfilAstral;
 import fr.insalyon.dasi.metier.modele.Sexe;
+import java.util.Date;
 
 /**
  *
@@ -21,6 +25,7 @@ public class Service {
     protected ClientDao clientDao = new ClientDao();
     protected EmployeDao employeDao = new EmployeDao();
     protected ProfilAstralDao profilDao = new ProfilAstralDao();
+    protected ConsultationDao consultationDao = new ConsultationDao();
 
     public Long inscrireClient(Client client) {
         Long resultat = null;
@@ -165,6 +170,24 @@ public class Service {
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, " Exception lors de l'appel au Service inscrireClient(client)", ex);
             JpaUtil.annulerTransaction();
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return res;
+    }
+    
+    public Long demanderConsultation(Client client, Medium medium){
+
+        Consultation consultation = new Consultation(Consultation.Statut.ENATTENTE, new Date(), null, null, null, null, medium, client);
+        Long res = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            JpaUtil.ouvrirTransaction();
+            consultationDao.creer(consultation);
+            JpaUtil.validerTransaction();
+            res = consultation.getId();
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service demanderConsultation()", ex);
         } finally {
             JpaUtil.fermerContextePersistance();
         }
