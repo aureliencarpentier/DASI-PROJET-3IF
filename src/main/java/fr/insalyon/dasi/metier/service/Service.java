@@ -11,7 +11,7 @@ import fr.insalyon.dasi.metier.modele.Employe;
 
 /**
  *
- * @author DASI Team
+ * @author Binome 3103
  */
 public class Service {
 
@@ -121,5 +121,4 @@ public class Service {
         }
         return resultat;
     }
-
 }

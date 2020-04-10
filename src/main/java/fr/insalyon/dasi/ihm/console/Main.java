@@ -16,7 +16,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-
 /**
  *
  * @author DASI Team
@@ -45,19 +44,35 @@ public class Main {
     }
 
     public static void initialiserClients() {
-        
+
         System.out.println();
         System.out.println("**** initialiserClients() ****");
         System.out.println();
-        
+
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
         EntityManager em = emf.createEntityManager();
-        
+
         Sexe sexe = Sexe.F;
         Date date = new Date();
-        ProfilAstral profil = new ProfilAstral("cancer","Dragon de metal","Turquoise","Chatte");
+        ProfilAstral profil = new ProfilAstral("cancer", "Dragon de metal", "Turquoise", "Chatte");
+        
+        try {
+            em.getTransaction().begin();
+            em.persist(profil);
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service", ex);
+            try {
+                em.getTransaction().rollback();
+            } catch (IllegalStateException ex2) {
+                // Ignorer cette exception...
+            }
+        }
+        
         List<Consultation> consultations = new ArrayList<>();
-        Client ada = new Client("Lovelace", "Ada", "ada.lovelace@insa-lyon.fr", "Ada1012",sexe,"75019","0695227164",date,profil,consultations);
+        Client ada = new Client("Lovelace", "Ada", "ada.lovelace@insa-lyon.fr", "Ada1012", sexe, "75019", "0695227164", date, profil, consultations);
+
+        //profil.setClient(ada);
 
         System.out.println();
         System.out.println("** Client avant persistance: ");
@@ -72,8 +87,7 @@ public class Main {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service", ex);
             try {
                 em.getTransaction().rollback();
-            }
-            catch (IllegalStateException ex2) {
+            } catch (IllegalStateException ex2) {
                 // Ignorer cette exception...
             }
         } finally {
@@ -87,18 +101,18 @@ public class Main {
     }
 
     public static void testerInscriptionClient() {
-        
+
         System.out.println();
         System.out.println("**** testerInscriptionClient() ****");
         System.out.println();
-        
+
         Service service = new Service();
-                
+
         Sexe sexe = Sexe.F;
         Date date = new Date();
-        ProfilAstral profil = new ProfilAstral("verseau","tigre de terre","blanc","pigeon");
+        ProfilAstral profil = new ProfilAstral("verseau", "tigre de terre", "blanc", "pigeon");
         List<Consultation> consultations = new ArrayList<>();
-        Client pierre = new Client("dupont", "pierre", "pierre@insa-lyon.fr", "pierre123",sexe,"06230","0655555555",date,profil,consultations);
+        Client pierre = new Client("dupont", "pierre", "pierre@insa-lyon.fr", "pierre123", sexe, "06230", "0655555555", date, profil, consultations);
         Long idPierre = service.inscrireClient(pierre);
         if (idPierre != null) {
             System.out.println("> Succès inscription");
@@ -109,11 +123,11 @@ public class Main {
     }
 
     public static void testerRechercheClient() {
-        
+
         System.out.println();
         System.out.println("**** testerRechercheClient() ****");
         System.out.println();
-        
+
         Service service = new Service();
         long id;
         Client client;
@@ -147,11 +161,11 @@ public class Main {
     }
 
     public static void testerListeClients() {
-        
+
         System.out.println();
         System.out.println("**** testerListeClients() ****");
         System.out.println();
-        
+
         Service service = new Service();
         List<Client> listeClients = service.listerClients();
         System.out.println("*** Liste des Clients");
@@ -159,18 +173,17 @@ public class Main {
             for (Client client : listeClients) {
                 afficherClient(client);
             }
-        }
-        else {
+        } else {
             System.out.println("=> ERREUR...");
         }
     }
 
     public static void testerAuthentificationClient() {
-        
+
         System.out.println();
         System.out.println("**** testerAuthentificationClient() ****");
         System.out.println();
-        
+
         Service service = new Service();
         Client client;
         String mail;
@@ -217,9 +230,9 @@ public class Main {
 
         Sexe sexe = Sexe.F;
         Date date = Date.from(Instant.MIN);
-        ProfilAstral profil = new ProfilAstral("cancer","Dragon de metal","Turquoise","Chatte");
+        ProfilAstral profil = new ProfilAstral("cancer", "Dragon de metal", "Turquoise", "Chatte");
         List<Consultation> consultations = new ArrayList<>();
-        Client client = new Client(nom, prenom, mail, motDePasse, sexe,"75019","0695227164",date,profil, consultations);
+        Client client = new Client(nom, prenom, mail, motDePasse, sexe, "75019", "0695227164", date, profil, consultations);
         Long idClient = service.inscrireClient(client);
 
         if (idClient != null) {

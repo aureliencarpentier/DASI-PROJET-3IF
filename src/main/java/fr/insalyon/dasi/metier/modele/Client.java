@@ -36,7 +36,7 @@ public class Client implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateNaissance;
     private Sexe sexe;
-    @OneToOne(cascade=CascadeType.PERSIST)
+    @OneToOne
     private ProfilAstral profil;
     @OneToMany
     private List<Consultation> consultations;

@@ -28,6 +28,7 @@ public class ProfilAstral implements Serializable {
     String couleur;
     String animal;
     
+    
     public ProfilAstral() {
     }
     
@@ -73,7 +74,7 @@ public class ProfilAstral implements Serializable {
     public void setAnimal(String animal) {
         this.animal = animal;
     }
-      
+    
     @Override
     public String toString() {
         return "Signe du zodiaque=" + signeZodiaque + "Signe astrologique chinois=" + signeAstrologique + "Couleur porte-bonheur=" + couleur + "Animal-Totem=" + animal;
