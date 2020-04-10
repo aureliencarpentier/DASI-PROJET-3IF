@@ -5,7 +5,6 @@
  */
 package fr.insalyon.dasi.dao;
 
-import fr.insalyon.dasi.metier.modele.Client;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -41,7 +40,7 @@ public class EmployeDao {
     
     public List<Employe> listerEmployes() {
         EntityManager em = JpaUtil.obtenirContextePersistance();
-        TypedQuery<Employe> query = em.createQuery("SELECT e FROM Employe e ORDER BY e.nom ASC, e.prenom ASC", Employe.class);
+        TypedQuery<Employe> query = em.createQuery("SELECT e FROM Employe e ORDER BY e.nombreConsultation ASC, e.nom ASC", Employe.class);
         return query.getResultList();
     }
     

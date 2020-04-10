@@ -3,6 +3,7 @@ package fr.insalyon.dasi.ihm.console;
 import fr.insalyon.dasi.dao.JpaUtil;
 import fr.insalyon.dasi.metier.modele.Client;
 import fr.insalyon.dasi.metier.modele.Consultation;
+import fr.insalyon.dasi.metier.modele.Employe;
 import fr.insalyon.dasi.metier.modele.ProfilAstral;
 import fr.insalyon.dasi.metier.modele.Sexe;
 import fr.insalyon.dasi.metier.service.Service;
@@ -29,6 +30,7 @@ public class Main {
         JpaUtil.init();
 
         initialiserClients();            // Question 3
+        initialiserEmployes();
         testerInscriptionClient();       // Question 4 & 5
         testerModifierClient();
         //testerRechercheClient();         // Question 6
@@ -52,15 +54,15 @@ public class Main {
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
         EntityManager em = emf.createEntityManager();
-        
+
         Service service = new Service();
 
         Sexe sexe = Sexe.F;
         Date date = new Date();
         ProfilAstral profil = new ProfilAstral("cancer", "Dragon de metal", "Turquoise", "Chatte");
-        
+
         service.creerProfilAstral(profil);
-        
+
         List<Consultation> consultations = new ArrayList<>();
         Client ada = new Client("Lovelace", "Ada", "ada.lovelace@insa-lyon.fr", "Ada1012", sexe, "75019", "0695227164", date, profil, consultations);
 
@@ -77,21 +79,42 @@ public class Main {
         System.out.println();
     }
 
+    public static void initialiserEmployes() {
+
+        System.out.println();
+        System.out.println("**** initialiserEmployes() ****");
+        System.out.println();
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
+        EntityManager em = emf.createEntityManager();
+
+        Employe e1 = new Employe("dupont", "christine", "christine@employe.com", Sexe.F, "0655555555", "christine123", 5, Employe.Statut.LIBRE, new ArrayList<Consultation>());
+        Employe e2 = new Employe("Ish", "Francois", "francois@employe.com", Sexe.M, "0674555895", "francois123", 1, Employe.Statut.LIBRE, new ArrayList<Consultation>());
+
+        try {
+            em.getTransaction().begin();
+            em.persist(e1);
+            em.persist(e2);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void testerInscriptionClient() {
 
         System.out.println();
         System.out.println("**** testerInscriptionClient() ****");
         System.out.println();
-        
 
         Service service = new Service();
 
         Sexe sexe = Sexe.F;
         Date date = new Date();
         ProfilAstral profil = new ProfilAstral("verseau", "tigre de terre", "blanc", "pigeon");
-        
+
         service.creerProfilAstral(profil);
-        
+
         List<Consultation> consultations = new ArrayList<>();
         Client pierre = new Client("dupont", "pierre", "pierre@insa-lyon.fr", "pierre123", sexe, "06230", "0655555555", date, profil, consultations);
         Long idPierre = service.inscrireClient(pierre);
@@ -223,30 +246,30 @@ public class Main {
         }
         afficherClient(client);
     }
-    
+
     public static void testerModifierClient() {
         System.out.println("");
         System.out.println("** Tester modif client **");
         System.out.println("");
-        
+
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
         EntityManager em = emf.createEntityManager();
-        
+
         Service service = new Service();
-        
+
         ProfilAstral p = new ProfilAstral("cheval", "cancer", "bleu", "chevre");
         service.creerProfilAstral(p);
-        
+
         List<Consultation> consultations = new ArrayList<>();
-        
+
         Client c = new Client("jean", "pierre", "salut@gmail.com", "jeanpierre", Sexe.M, "06000", "0601020304", new Date(), p, consultations);
         service.inscrireClient(c);
-        
+
         System.out.println("Client avant modifs : ");
         afficherClient(c);
-        
+
         service.modifierProfilClient(c.getMail(), "marian", "jojo", c.getMotDePasse(), Sexe.M, c.getMotDePasse(), c.getNumeroTelephone());
-        
+
         System.out.println("Client après modifs");
         c = service.rechercherClientParEmail(c.getMail());
         afficherClient(c);

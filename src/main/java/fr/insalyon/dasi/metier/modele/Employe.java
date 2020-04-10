@@ -21,7 +21,7 @@ import javax.persistence.OneToMany;
 @Entity
 public class Employe implements Serializable {
 
-    enum Statut {
+    public static enum Statut {
         OCCUPE,
         LIBRE;
     }
