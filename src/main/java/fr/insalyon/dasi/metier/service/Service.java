@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import fr.insalyon.dasi.dao.EmployeDao;
+import fr.insalyon.dasi.dao.ProfilAstralDao;
 import fr.insalyon.dasi.metier.modele.Employe;
+import fr.insalyon.dasi.metier.modele.ProfilAstral;
 import fr.insalyon.dasi.metier.modele.Sexe;
 
 /**
@@ -18,6 +20,7 @@ public class Service {
 
     protected ClientDao clientDao = new ClientDao();
     protected EmployeDao employeDao = new EmployeDao();
+    protected ProfilAstralDao profilDao = new ProfilAstralDao();
 
     public Long inscrireClient(Client client) {
         Long resultat = null;
@@ -56,6 +59,19 @@ public class Service {
         JpaUtil.creerContextePersistance();
         try {
             resultat = clientDao.chercherParId(id);
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service rechercherClientParId(id)", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
+    public Client rechercherClientParEmail(String email) {
+        Client resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            resultat = clientDao.chercherParMail(email);
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service rechercherClientParId(id)", ex);
             resultat = null;
@@ -128,19 +144,30 @@ public class Service {
         try {
             client = clientDao.chercherParMail(mail);
             if (client != null) {
-                client.setNom(nom);
-                client.setPrenom(prenom);
-                client.setMotDePasse(motDePasse);
-                client.setSexe(sexe);
-                client.setCodePostal(code);
-                client.setNumero(numero);
+                clientDao.modifier(mail, nom, prenom, motDePasse, sexe, code, numero);
             }
-
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service modifierProfilClient()", ex);
         } finally {
             JpaUtil.fermerContextePersistance();
         }
         return client;
+    }
+    
+    public Long creerProfilAstral(ProfilAstral profil) {
+        Long res = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            JpaUtil.ouvrirTransaction();
+            profilDao.creer(profil);
+            JpaUtil.validerTransaction();
+            res = profil.getId();
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, " Exception lors de l'appel au Service inscrireClient(client)", ex);
+            JpaUtil.annulerTransaction();
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return res;
     }
 }

@@ -30,9 +30,10 @@ public class Main {
 
         initialiserClients();            // Question 3
         testerInscriptionClient();       // Question 4 & 5
+        testerModifierClient();
         //testerRechercheClient();         // Question 6
-        testerListeClients();            // Question 7
-        testerAuthentificationClient();  // Question 8
+        //testerListeClients();            // Question 7
+        //testerAuthentificationClient();  // Question 8
         //saisirInscriptionClient();       // Question 9
         //saisirRechercheClient();
 
@@ -51,23 +52,14 @@ public class Main {
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
         EntityManager em = emf.createEntityManager();
+        
+        Service service = new Service();
 
         Sexe sexe = Sexe.F;
         Date date = new Date();
         ProfilAstral profil = new ProfilAstral("cancer", "Dragon de metal", "Turquoise", "Chatte");
         
-        try {
-            em.getTransaction().begin();
-            em.persist(profil);
-            em.getTransaction().commit();
-        } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service", ex);
-            try {
-                em.getTransaction().rollback();
-            } catch (IllegalStateException ex2) {
-                // Ignorer cette exception...
-            }
-        }
+        service.creerProfilAstral(profil);
         
         List<Consultation> consultations = new ArrayList<>();
         Client ada = new Client("Lovelace", "Ada", "ada.lovelace@insa-lyon.fr", "Ada1012", sexe, "75019", "0695227164", date, profil, consultations);
@@ -77,20 +69,7 @@ public class Main {
         afficherClient(ada);
         System.out.println();
 
-        try {
-            em.getTransaction().begin();
-            em.persist(ada);
-            em.getTransaction().commit();
-        } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service", ex);
-            try {
-                em.getTransaction().rollback();
-            } catch (IllegalStateException ex2) {
-                // Ignorer cette exception...
-            }
-        } finally {
-            em.close();
-        }
+        service.inscrireClient(ada);
 
         System.out.println();
         System.out.println("** Clients après persistance: ");
@@ -103,12 +82,16 @@ public class Main {
         System.out.println();
         System.out.println("**** testerInscriptionClient() ****");
         System.out.println();
+        
 
         Service service = new Service();
 
         Sexe sexe = Sexe.F;
         Date date = new Date();
         ProfilAstral profil = new ProfilAstral("verseau", "tigre de terre", "blanc", "pigeon");
+        
+        service.creerProfilAstral(profil);
+        
         List<Consultation> consultations = new ArrayList<>();
         Client pierre = new Client("dupont", "pierre", "pierre@insa-lyon.fr", "pierre123", sexe, "06230", "0655555555", date, profil, consultations);
         Long idPierre = service.inscrireClient(pierre);
@@ -239,7 +222,34 @@ public class Main {
             System.out.println("> Échec inscription");
         }
         afficherClient(client);
-
+    }
+    
+    public static void testerModifierClient() {
+        System.out.println("");
+        System.out.println("** Tester modif client **");
+        System.out.println("");
+        
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
+        EntityManager em = emf.createEntityManager();
+        
+        Service service = new Service();
+        
+        ProfilAstral p = new ProfilAstral("cheval", "cancer", "bleu", "chevre");
+        service.creerProfilAstral(p);
+        
+        List<Consultation> consultations = new ArrayList<>();
+        
+        Client c = new Client("jean", "pierre", "salut@gmail.com", "jeanpierre", Sexe.M, "06000", "0601020304", new Date(), p, consultations);
+        service.inscrireClient(c);
+        
+        System.out.println("Client avant modifs : ");
+        afficherClient(c);
+        
+        service.modifierProfilClient(c.getMail(), "marian", "jojo", c.getMotDePasse(), Sexe.M, c.getMotDePasse(), c.getNumeroTelephone());
+        
+        System.out.println("Client après modifs");
+        c = service.rechercherClientParEmail(c.getMail());
+        afficherClient(c);
     }
 
     public static void saisirRechercheClient() {
