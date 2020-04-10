@@ -21,7 +21,7 @@ import javax.persistence.Temporal;
 @Entity
 public class Consultation implements Serializable {
     
-    enum Statut {
+    public static enum Statut {
     ENCOURS,
     ENATTENTE,
     ANNULEE,
@@ -49,8 +49,8 @@ public class Consultation implements Serializable {
     public Consultation() {
     }
 
-    public Consultation(Long id, Statut statut, Date dateDemande, Date dateDebut, Date dateFin, String commentaire, Employe employe, Medium medium, Client client) {
-        this.id = id;
+    public Consultation(Statut statut, Date dateDemande, Date dateDebut, Date dateFin, String commentaire, Employe employe, Medium medium, Client client) {
+
         this.statut = statut;
         this.dateDemande = dateDemande;
         this.dateDebut = dateDebut;
