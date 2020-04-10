@@ -27,6 +27,7 @@ public class Service {
     protected ProfilAstralDao profilDao = new ProfilAstralDao();
     protected ConsultationDao consultationDao = new ConsultationDao();
 
+
     public Long inscrireClient(Client client) {
         Long resultat = null;
         JpaUtil.creerContextePersistance();
@@ -182,7 +183,7 @@ public class Service {
         Long res = null;
         JpaUtil.creerContextePersistance();
         try {
-            JpaUtil.ouvrirTransaction();
+            JpaUtil.ouvrirTransaction();            
             consultationDao.creer(consultation);
             JpaUtil.validerTransaction();
             res = consultation.getId();

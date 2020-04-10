@@ -1,8 +1,10 @@
 package fr.insalyon.dasi.ihm.console;
 
 import fr.insalyon.dasi.dao.JpaUtil;
+import fr.insalyon.dasi.dao.MediumDao;
 import fr.insalyon.dasi.metier.modele.Client;
 import fr.insalyon.dasi.metier.modele.Consultation;
+import fr.insalyon.dasi.metier.modele.Medium;
 import fr.insalyon.dasi.metier.modele.ProfilAstral;
 import fr.insalyon.dasi.metier.modele.Sexe;
 import fr.insalyon.dasi.metier.service.Service;
@@ -31,6 +33,7 @@ public class Main {
         initialiserClients();            // Question 3
         testerInscriptionClient();       // Question 4 & 5
         testerModifierClient();
+        testerDemanderConsultation();
         //testerRechercheClient();         // Question 6
         //testerListeClients();            // Question 7
         //testerAuthentificationClient();  // Question 8
@@ -50,9 +53,6 @@ public class Main {
         System.out.println("**** initialiserClients() ****");
         System.out.println();
 
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
-        EntityManager em = emf.createEntityManager();
-        
         Service service = new Service();
 
         Sexe sexe = Sexe.F;
@@ -75,6 +75,43 @@ public class Main {
         System.out.println("** Clients après persistance: ");
         afficherClient(ada);
         System.out.println();
+    }
+
+    public static void testerDemanderConsultation() {
+
+        System.out.println();
+        System.out.println("**** testerDemanderConsultation() ****");
+        System.out.println();
+
+
+        Service service = new Service();
+
+        Sexe sexe = Sexe.F;
+        Date date = new Date();
+        ProfilAstral profil = new ProfilAstral("verseau", "tigre de terre", "blanc", "pigeon");
+
+        service.creerProfilAstral(profil);
+        
+        List<Consultation> consultations = new ArrayList<>();
+        Medium escroc = new Medium("Escroc", Sexe.M, "je vais vous escroquer", consultations);
+        Client pierre = new Client("dupont", "pierre", "pierrebis@insa-lyon.fr", "pierre123", sexe, "06230", "0655555555", date, profil, consultations);
+        Long idPierre = service.inscrireClient(pierre);
+
+        /* faute de "creer medium" comme service j'utilise ce bout de code pour pouvoir persister le medium, pour tester le service demanderConsultation*/
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
+        EntityManager em = emf.createEntityManager();        
+        em.getTransaction().begin();
+        em.persist(escroc);
+        em.getTransaction().commit();
+        
+        Long idConsultation = service.demanderConsultation(pierre, escroc);
+        if (idConsultation != null) {
+            System.out.println("> Succès demande consultation");
+        } else {
+            System.out.println("> Échec demande consultation");
+        }
+        
+
     }
 
     public static void testerInscriptionClient() {
@@ -102,7 +139,7 @@ public class Main {
         }
         afficherClient(pierre);
     }
-
+    
     public static void testerRechercheClient() {
 
         System.out.println();
