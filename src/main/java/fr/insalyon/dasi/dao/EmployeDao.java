@@ -17,18 +17,16 @@ import fr.insalyon.dasi.metier.modele.Employe;
  */
 public class EmployeDao {
     
-    public Boolean verifierEmailClient (String adresseMail){
-        Boolean verification = false;
+    public void creer(Employe employe) {
         EntityManager em = JpaUtil.obtenirContextePersistance();
-        TypedQuery<Client> query = em.createQuery("SELECT c FROM Client c WHERE c.mail = :mail", Client.class);
-        query.setParameter("mail", adresseMail); // correspond au paramètre ":mail" dans la requête
-        List<Client> clients = query.getResultList();
-        if (!clients.isEmpty()) {
-            verification = true;
-        }
-        return verification;
+        em.persist(employe);
     }
-    
+        
+    public Employe chercherParId(Long employeId) {
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        return em.find(Employe.class, employeId); // renvoie null si l'identifiant n'existe pas
+    }
+   
     public Employe chercherParMail(String employeEmail) {
         EntityManager em = JpaUtil.obtenirContextePersistance();
         TypedQuery<Employe> query = em.createQuery("SELECT e FROM Employe e WHERE e.email = :email", Employe.class);

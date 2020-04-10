@@ -72,8 +72,6 @@ public class Main {
         List<Consultation> consultations = new ArrayList<>();
         Client ada = new Client("Lovelace", "Ada", "ada.lovelace@insa-lyon.fr", "Ada1012", sexe, "75019", "0695227164", date, profil, consultations);
 
-        //profil.setClient(ada);
-
         System.out.println();
         System.out.println("** Client avant persistance: ");
         afficherClient(ada);
