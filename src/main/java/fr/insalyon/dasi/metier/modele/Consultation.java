@@ -23,6 +23,7 @@ public class Consultation implements Serializable {
     
     public static enum Statut {
     ENCOURS,
+    ACCEPTEE,
     ENATTENTE,
     ANNULEE,
     FINIE;
@@ -59,6 +60,10 @@ public class Consultation implements Serializable {
         this.client = client;
         this.employe = employe;
         this.medium = medium;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Employe getEmploye() {
