@@ -57,6 +57,14 @@ public class Employe implements Serializable {
         this.consultations = consultations;
     }
 
+    public List<Consultation> getConsultations() {
+        return consultations;
+    }
+
+    public long getId() {
+        return id;
+    }
+
     public void setConsultations(List<Consultation> consultations) {
         this.consultations = consultations;
     }

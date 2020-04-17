@@ -15,7 +15,7 @@ import javax.persistence.TypedQuery;
  */
 public class MediumDao {
         public void creer(Medium medium) {
-            EntityManager em = JpaUtil.obtenirContextePersistance();
+        EntityManager em = JpaUtil.obtenirContextePersistance();
         em.persist(medium);
     }
         public Medium chercherParId(Long mediumId) {

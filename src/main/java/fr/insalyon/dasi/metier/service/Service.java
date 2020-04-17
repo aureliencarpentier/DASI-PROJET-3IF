@@ -27,6 +27,7 @@ public class Service {
     protected ProfilAstralDao profilDao = new ProfilAstralDao();
     protected ConsultationDao consultationDao = new ConsultationDao();
 
+
     public Long inscrireClient(Client client) {
         Long resultat = null;
         JpaUtil.creerContextePersistance();
@@ -182,15 +183,33 @@ public class Service {
         Long res = null;
         JpaUtil.creerContextePersistance();
         try {
-            JpaUtil.ouvrirTransaction();
+            JpaUtil.ouvrirTransaction();            
             consultationDao.creer(consultation);
             JpaUtil.validerTransaction();
             res = consultation.getId();
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service demanderConsultation()", ex);
+            JpaUtil.annulerTransaction();
         } finally {
             JpaUtil.fermerContextePersistance();
         }
         return res;
+    }
+        
+    public Long accepterConsultation(Long consultationId, Employe employe){
+
+
+        JpaUtil.creerContextePersistance();
+        try {
+            //JpaUtil.ouvrirTransaction();            
+            consultationDao.accepterConsultation(consultationId,employe);
+            //JpaUtil.validerTransaction();
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service accepterConsultation()", ex);
+            JpaUtil.annulerTransaction();
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return consultationId;
     }
 }

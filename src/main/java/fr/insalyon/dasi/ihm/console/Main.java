@@ -1,9 +1,11 @@
 package fr.insalyon.dasi.ihm.console;
 
 import fr.insalyon.dasi.dao.JpaUtil;
+import fr.insalyon.dasi.dao.MediumDao;
 import fr.insalyon.dasi.metier.modele.Client;
 import fr.insalyon.dasi.metier.modele.Consultation;
 import fr.insalyon.dasi.metier.modele.Employe;
+import fr.insalyon.dasi.metier.modele.Medium;
 import fr.insalyon.dasi.metier.modele.ProfilAstral;
 import fr.insalyon.dasi.metier.modele.Sexe;
 import fr.insalyon.dasi.metier.service.Service;
@@ -33,6 +35,9 @@ public class Main {
         initialiserEmployes();
         testerInscriptionClient();       // Question 4 & 5
         testerModifierClient();
+
+        testerDemanderConsultation();
+        testerAccepterConsultation();
         //testerRechercheClient();         // Question 6
         //testerListeClients();            // Question 7
         //testerAuthentificationClient();  // Question 8
@@ -78,6 +83,88 @@ public class Main {
         afficherClient(ada);
         System.out.println();
     }
+   public static void testerDemanderConsultation() {
+
+        System.out.println();
+        System.out.println("**** testerDemanderConsultation() ****");
+        System.out.println();
+
+
+        Service service = new Service();
+
+        Sexe sexe = Sexe.F;
+        Date date = new Date();
+        ProfilAstral profil = new ProfilAstral("verseau", "tigre de terre", "blanc", "pigeon");
+
+        service.creerProfilAstral(profil);
+        
+        List<Consultation> consultations = new ArrayList<>();
+        Medium escroc = new Medium("Escroc", Sexe.M, "je vais vous escroquer", consultations);
+        Employe esclave = new Employe("Esclave", "esclave", "esclave@gmail.com", Sexe.F, "0695227684", "esclavemerci", 0, Employe.Statut.LIBRE, consultations);
+        Client pierre = new Client("dupont", "pierre", "pierrebis@insa-lyon.fr", "pierre123", sexe, "06230", "0655555555", date, profil, consultations);
+        Long idPierre = service.inscrireClient(pierre);
+
+        /* faute de "creer medium" comme service j'utilise ce bout de code pour pouvoir persister le medium, pour tester le service demanderConsultation*/
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
+        EntityManager em = emf.createEntityManager();        
+        em.getTransaction().begin();
+        em.persist(escroc);
+        em.persist(esclave);
+        em.getTransaction().commit();
+        emf.close();
+        
+        Long consultationId = service.demanderConsultation(pierre, escroc);
+        
+        if (consultationId != null) {
+            System.out.println("> Succès demande consultation");
+        } else {
+            System.out.println("> Échec demande consultation");
+        }
+        
+
+    }
+
+    public static void testerAccepterConsultation() {
+
+        System.out.println();
+        System.out.println("**** testerAccepterConsultation() ****");
+        System.out.println();
+
+
+        Service service = new Service();
+
+        Sexe sexe = Sexe.F;
+        Date date = new Date();
+        ProfilAstral profil = new ProfilAstral("verseau", "tigre de terre", "blanc", "pigeon");
+
+        service.creerProfilAstral(profil);
+        
+        List<Consultation> consultations = new ArrayList<>();
+        Medium escrocbis = new Medium("Escrocbis", Sexe.M, "je vais vous escroquerbis", consultations);
+        Employe esclavebis = new Employe("Esclave", "esclave", "esclavebis@gmail.com", Sexe.F, "0695227684", "esclavemerci", 0, Employe.Statut.LIBRE, consultations);
+        Client pierrebis = new Client("dupont", "pierre", "pierretris@insa-lyon.fr", "pierre123", sexe, "06230", "0655555555", date, profil, consultations);
+        Long idPierre = service.inscrireClient(pierrebis);
+        Consultation consultation = new Consultation();
+        /* faute de "creer medium" comme service j'utilise ce bout de code pour pouvoir persister le medium, pour tester le service demanderConsultation*/
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
+        EntityManager em = emf.createEntityManager();        
+        em.getTransaction().begin();
+        em.persist(escrocbis);
+        em.persist(consultation);
+        em.persist(esclavebis);
+        em.getTransaction().commit();
+        emf.close();
+        consultation.setId(esclavebis.getId());
+        Long consultationId = consultation.getId();
+        Long idConsultationbis = service.accepterConsultation(consultationId, esclavebis);
+        if (idConsultationbis != null) {
+            System.out.println("> Succès acceptation consultation");
+        } else {
+            System.out.println("> Échec acceptation consultation");
+        }
+        
+
+    }
 
     public static void initialiserEmployes() {
 
@@ -116,16 +203,16 @@ public class Main {
         service.creerProfilAstral(profil);
 
         List<Consultation> consultations = new ArrayList<>();
-        Client pierre = new Client("dupont", "pierre", "pierre@insa-lyon.fr", "pierre123", sexe, "06230", "0655555555", date, profil, consultations);
-        Long idPierre = service.inscrireClient(pierre);
+        Client pierretris = new Client("dupont", "pierre", "pierre@insa-lyon.fr", "pierre123", sexe, "06230", "0655555555", date, profil, consultations);
+        Long idPierre = service.inscrireClient(pierretris);
         if (idPierre != null) {
             System.out.println("> Succès inscription");
         } else {
             System.out.println("> Échec inscription");
         }
-        afficherClient(pierre);
+        afficherClient(pierretris);
     }
-
+    
     public static void testerRechercheClient() {
 
         System.out.println();

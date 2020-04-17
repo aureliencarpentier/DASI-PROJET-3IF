@@ -4,7 +4,8 @@ import fr.insalyon.dasi.metier.modele.Consultation;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-
+import fr.insalyon.dasi.metier.modele.Employe;
+import java.util.Date;
 /**
  *
  * @author DASI Team
@@ -27,5 +28,23 @@ public class ConsultationDao {
         return query.getResultList();
     }
     
+    public int accepterConsultation(Long consultationId, Employe employe){
+
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        em.getTransaction().begin();
+        TypedQuery<Consultation> query = em.createQuery("UPDATE Consultation c SET c.employe = :employe, c.dateDebut = :dateDebut, c.statut = :statut WHERE c.id = :consultationId", Consultation.class);
+        query.setParameter("employe", employe);
+        query.setParameter("dateDebut", new Date());
+        query.setParameter("statut", Consultation.Statut.ACCEPTEE);
+        query.setParameter("consultationId", consultationId);
+        int n = query.executeUpdate();
+        if(n != 0) {
+            em.getTransaction().commit();
+        } else {
+            em.getTransaction().rollback();
+        }
+        
+        return n;
+    }
     // modifier / supprimer  ... 
 }
