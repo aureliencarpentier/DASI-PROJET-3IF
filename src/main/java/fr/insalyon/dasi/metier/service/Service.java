@@ -15,7 +15,10 @@ import fr.insalyon.dasi.metier.modele.Employe;
 import fr.insalyon.dasi.metier.modele.Medium;
 import fr.insalyon.dasi.metier.modele.ProfilAstral;
 import fr.insalyon.dasi.metier.modele.Sexe;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -286,5 +289,23 @@ public class Service {
         JpaUtil.fermerContextePersistance();
 
         return consultationId;
+    }
+
+    public Map<Medium, Integer> nombreConsultationParMedium() {
+        List<Medium> mediums = mediumDao.listerMediums();
+        Map<Medium, Integer> nb = new HashMap<>();
+        for (int i = 0; i < mediums.size(); i++) {
+            nb.put(mediums.get(i), mediums.get(i).getConsultations().size());
+        }
+        return nb;
+    }
+    
+    public Map<Employe, Integer> repartitionClientParEmploye() {
+        List<Employe> employes = employeDao.listerEmployes();
+        Map<Employe, Integer> nb = new HashMap<>();
+        for (int i = 0; i < employes.size(); i++) {
+            nb.put(employes.get(i), employes.get(i).getConsultations().size());
+        }
+        return nb;
     }
 }

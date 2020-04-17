@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import fr.insalyon.dasi.metier.modele.Medium;
 import fr.insalyon.dasi.metier.modele.Medium.Statut;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.TypedQuery;
 
 /**
