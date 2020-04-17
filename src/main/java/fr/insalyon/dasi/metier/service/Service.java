@@ -212,4 +212,38 @@ public class Service {
         }
         return consultationId;
     }
+
+
+public Long annulerConsultation(Long consultationId){
+
+        //JpaUtil.creerContextePersistance();
+        try {
+            //JpaUtil.ouvrirTransaction();            
+            consultationDao.annulerConsultation(consultationId);
+            //JpaUtil.validerTransaction();
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service annulerConsultation()", ex);
+            //JpaUtil.annulerTransaction();
+        } finally {
+            //JpaUtil.fermerContextePersistance();
+        }
+        return consultationId;
+    }
+
+    public Long demarrerConsultation(Long consultationId){
+
+        JpaUtil.creerContextePersistance();
+        try {
+            JpaUtil.ouvrirTransaction();            
+            consultationDao.demarrerConsultation(consultationId);
+            JpaUtil.validerTransaction();
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service demarrerConsultation()", ex);
+            JpaUtil.annulerTransaction();
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return consultationId;
+    }
 }
+        
