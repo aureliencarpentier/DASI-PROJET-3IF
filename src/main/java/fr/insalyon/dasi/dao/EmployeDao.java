@@ -45,24 +45,13 @@ public class EmployeDao {
         return query.getResultList();
     }
     
-    public boolean modifierStatut(Long employeId, Statut statut) {
-        boolean res = false;
+    public void modifierStatut(Long employeId, Statut statut) {
+        Employe e = chercherParId(employeId);
         
         EntityManager em = JpaUtil.obtenirContextePersistance();
         //em.getTransaction().begin();
-        
-        TypedQuery<Employe> query = em.createQuery("Update Employe e set e.statut = :statut WHERE e.id = :employeId", Employe.class);
-        query.setParameter("statut", statut);
-        query.setParameter("employeId", employeId);
-        
-        int n = query.executeUpdate();
-        if(n > 0) {
-            res = true;
-            em.getTransaction().commit();
-        } else {
-            em.getTransaction().rollback();
-        }
-        return res;
+        e.setStatut(statut);
+        em.getTransaction().commit();
     }
     
     /*public Consultation chercherConsultationEnCours(String employeEmail) {
