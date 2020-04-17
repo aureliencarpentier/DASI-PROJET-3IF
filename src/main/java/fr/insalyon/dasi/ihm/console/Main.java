@@ -36,9 +36,12 @@ public class Main {
         //testerInscriptionClient();       // Question 4 & 5
         //testerModifierClient();
 
-        //testerDemanderConsultation();
-        //testerAccepterConsultation();
         testerTerminerConsultation();
+
+        testerDemanderConsultation();
+        testerAccepterConsultation();
+        testerAnnulerConsultation();
+        testerDemarrerConsultation();
         //testerRechercheClient();         // Question 6
         //testerListeClients();            // Question 7
         //testerAuthentificationClient();  // Question 8
@@ -84,6 +87,7 @@ public class Main {
         afficherClient(ada);
         System.out.println();
     }
+    
    public static void testerDemanderConsultation() {
 
         System.out.println();
@@ -214,6 +218,86 @@ public class Main {
         }
     }
 
+    public static void testerAnnulerConsultation() {
+
+        System.out.println();
+        System.out.println("**** testerAnnulerConsultation() ****");
+        System.out.println();
+
+
+        Service service = new Service();
+
+        Sexe sexe = Sexe.F;
+        Date date = new Date();
+        ProfilAstral profil = new ProfilAstral("verseaua", "tigre de terrea", "blanca", "pigeona");
+
+        service.creerProfilAstral(profil);
+        
+        List<Consultation> consultations = new ArrayList<>();
+        Medium annuler = new Medium("annuler", Sexe.M, "je vais vous escroquer", consultations, Medium.Statut.LIBRE);
+        //Employe annu = new Employe("annu", "mannu", "mannu@gmail.com", Sexe.F, "0695227684", "esclavemerci", 0, Employe.Statut.LIBRE, consultations);
+        Client Jannule = new Client("nique", "ta", "mere", "grosse", sexe, "pute", "jj", date, profil, consultations);
+        Long idJannule = service.inscrireClient(Jannule);
+
+        /* faute de "creer medium" comme service j'utilise ce bout de code pour pouvoir persister le medium, pour tester le service demanderConsultation*/
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
+        EntityManager em = emf.createEntityManager();        
+        em.getTransaction().begin();
+        em.persist(annuler);
+        em.getTransaction().commit();
+
+
+
+        Long consultationNonAnnuleeId = service.demanderConsultation(Jannule, annuler);
+        //Long idConsultationbis = service.accepterConsultation(consultationId, esclave);       
+        if (consultationNonAnnuleeId != null) {
+            System.out.println("> Succès demande consultation");
+        } else {
+            System.out.println("> Échec demande consultation");
+        }
+        Long consultationAnnuleeId = service.annulerConsultation(consultationNonAnnuleeId);
+    }
+       
+    public static void testerDemarrerConsultation() {
+
+        System.out.println();
+        System.out.println("**** testerDemarrerConsultation() ****");
+        System.out.println();
+
+
+        Service service = new Service();
+
+        Sexe sexe = Sexe.F;
+        Date date = new Date();
+        ProfilAstral profil = new ProfilAstral("jte", "demarre", "blanca", "pigeona");
+
+        service.creerProfilAstral(profil);
+        
+        List<Consultation> consultations = new ArrayList<>();
+        Medium demarrage = new Medium("demarrage", Sexe.M, "je vais vous escroquer", consultations, Medium.Statut.LIBRE);
+        //Employe annu = new Employe("annu", "mannu", "mannu@gmail.com", Sexe.F, "0695227684", "esclavemerci", 0, Employe.Statut.LIBRE, consultations);
+        Client Jtedemarre = new Client("Je", "te", "demarre", "merci", sexe, "pute", "jj", date, profil, consultations);
+        Long idJtedemarre = service.inscrireClient(Jtedemarre);
+
+        /* faute de "creer medium" comme service j'utilise ce bout de code pour pouvoir persister le medium, pour tester le service demanderConsultation*/
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
+        EntityManager em = emf.createEntityManager();        
+        em.getTransaction().begin();
+        em.persist(demarrage);
+        em.getTransaction().commit();
+
+
+
+        Long consultationNonDemarreeId = service.demanderConsultation(Jtedemarre, demarrage);
+        //Long idConsultationbis = service.accepterConsultation(consultationId, esclave);       
+        if (consultationNonDemarreeId != null) {
+            System.out.println("> Succès demande consultation");
+        } else {
+            System.out.println("> Échec demande consultation");
+        }
+        Long consultationDemarreeId = service.demarrerConsultation(consultationNonDemarreeId);
+    }
+    
     public static void initialiserEmployes() {
 
         System.out.println();

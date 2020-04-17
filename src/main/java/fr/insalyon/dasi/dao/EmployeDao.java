@@ -49,7 +49,7 @@ public class EmployeDao {
         boolean res = false;
         
         EntityManager em = JpaUtil.obtenirContextePersistance();
-        em.getTransaction().begin();
+        //em.getTransaction().begin();
         
         TypedQuery<Employe> query = em.createQuery("Update Employe e set e.statut = :statut WHERE e.id = :employeId", Employe.class);
         query.setParameter("statut", statut);

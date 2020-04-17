@@ -30,8 +30,8 @@ public class ConsultationDao {
         return query.getResultList();
     }
 
-    public int accepterConsultation(Long consultationId, Employe employe) {
-        
+    public Long accepterConsultation(Long consultationId, Employe employe) {
+
         JpaUtil.creerContextePersistance();
         EntityManager em = JpaUtil.obtenirContextePersistance();
         em.getTransaction().begin();
@@ -58,31 +58,47 @@ public class ConsultationDao {
         querybis.setParameter("statutbis", Employe.Statut.OCCUPE);
         querybis.setParameter("employeId", employeId);
         int nbis = querybis.executeUpdate();
-        if(nbis != 0) {
+        if (nbis != 0) {
             em.getTransaction().commit();
         } else {
             em.getTransaction().rollback();
         }
-        
-        return n;
+
+        return consultationId;
     }
-    
+
     public boolean terminerConsultation(Long consultationId) {
         boolean res = false;
-        
         JpaUtil.creerContextePersistance();
         EntityManager em = JpaUtil.obtenirContextePersistance();
         em.getTransaction().begin();
-        
+
         TypedQuery<Consultation> query = em.createQuery("UPDATE Consultation c SET c.dateFin = :dateFin, c.statut = :statut WHERE c.id = :consultationId", Consultation.class);
         query.setParameter("statut", Consultation.Statut.FINIE);
         query.setParameter("dateFin", new Date());
         query.setParameter("consultationId", consultationId);
-        
+
+        int n = query.executeUpdate();
+        if (n != 0) {
+            res = true;
+        }
+
+        return res;
+    }
+
+    public Long annulerConsultation(Long consultationId) {
+
+        JpaUtil.creerContextePersistance();
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        em.getTransaction().begin();
+
+        TypedQuery<Consultation> query = em.createQuery("UPDATE Consultation c SET c.statut = :statut, c.dateFin = :dateFin WHERE c.id = :consultationId", Consultation.class);
+        query.setParameter("statut", Consultation.Statut.ANNULEE);
+        query.setParameter("dateFin", new Date());
+        query.setParameter("consultationId", consultationId);
         int n = query.executeUpdate();
         try {
             if (n != 0) {
-                res = true;
                 em.getTransaction().commit();
             } else {
                 em.getTransaction().rollback();
@@ -91,8 +107,31 @@ public class ConsultationDao {
             e.printStackTrace();
             em.getTransaction().rollback();
         }
-        return res;
-        
+
+        return consultationId;
     }
+
+    public Long demarrerConsultation(Long consultationId) {
+
+        JpaUtil.creerContextePersistance();
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        em.getTransaction().begin();
+        TypedQuery<Consultation> query = em.createQuery("UPDATE Consultation c SET c.statut = :statut WHERE c.id = :consultationId", Consultation.class);
+        query.setParameter("statut", Consultation.Statut.ENCOURS);
+        query.setParameter("consultationId", consultationId);
+        int n = query.executeUpdate();
+        try {
+            if (n != 0) {
+                em.getTransaction().commit();
+            } else {
+                em.getTransaction().rollback();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            em.getTransaction().rollback();
+        }
+        return consultationId;
+    }
+
     // modifier / supprimer  ... 
 }
