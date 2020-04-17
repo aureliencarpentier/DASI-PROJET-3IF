@@ -33,11 +33,12 @@ public class Main {
 
         initialiserClients();            // Question 3
         initialiserEmployes();
-        testerInscriptionClient();       // Question 4 & 5
-        testerModifierClient();
+        //testerInscriptionClient();       // Question 4 & 5
+        //testerModifierClient();
 
-        testerDemanderConsultation();
-        testerAccepterConsultation();
+        //testerDemanderConsultation();
+        //testerAccepterConsultation();
+        testerTerminerConsultation();
         //testerRechercheClient();         // Question 6
         //testerListeClients();            // Question 7
         //testerAuthentificationClient();  // Question 8
@@ -99,7 +100,7 @@ public class Main {
         service.creerProfilAstral(profil);
         
         List<Consultation> consultations = new ArrayList<>();
-        Medium escroc = new Medium("Escroc", Sexe.M, "je vais vous escroquer", consultations);
+        Medium escroc = new Medium("Escroc", Sexe.M, "je vais vous escroquer", consultations, Medium.Statut.LIBRE);
         Employe esclave = new Employe("Esclave", "esclave", "esclave@gmail.com", Sexe.F, "0695227684", "esclavemerci", 0, Employe.Statut.LIBRE, consultations);
         Client pierre = new Client("dupont", "pierre", "pierrebis@insa-lyon.fr", "pierre123", sexe, "06230", "0655555555", date, profil, consultations);
         Long idPierre = service.inscrireClient(pierre);
@@ -141,7 +142,7 @@ public class Main {
         service.creerProfilAstral(profil);
         
         List<Consultation> consultations = new ArrayList<>();
-        Medium escrocbis = new Medium("Escrocbis", Sexe.M, "je vais vous escroquerbis", consultations);
+        Medium escrocbis = new Medium("Escrocbis", Sexe.M, "je vais vous escroquerbis", consultations, Medium.Statut.LIBRE);
         Employe esclavebis = new Employe("Esclave", "esclave", "esclavebis@gmail.com", Sexe.F, "0695227684", "esclavemerci", 0, Employe.Statut.LIBRE, consultations);
         Client pierrebis = new Client("dupont", "pierre", "pierretris@insa-lyon.fr", "pierre123", sexe, "06230", "0655555555", date, profil, consultations);
         Long idPierre = service.inscrireClient(pierrebis);
@@ -164,8 +165,53 @@ public class Main {
         } else {
             System.out.println("> Échec acceptation consultation");
         }
-        
+    }
+    
+    public static void testerTerminerConsultation() {
 
+        System.out.println();
+        System.out.println("**** testerTerminerConsultation() ****");
+        System.out.println();
+
+
+        Service service = new Service();
+
+        Sexe sexe = Sexe.M;
+        Date date = new Date();
+        ProfilAstral profil = new ProfilAstral("cancer", "verre d'eau", "rouge", "castor");
+
+        service.creerProfilAstral(profil);
+        
+        List<Consultation> consultations = new ArrayList<>();
+        Medium medium = new Medium("salvator", Sexe.M, "je vais vous escroquerbis", consultations, Medium.Statut.LIBRE);
+        Employe employe = new Employe("Macron", "Emmanuel", "emmanuelMacron@gmail.com", Sexe.M, "0695227684", "macron macron", 0, Employe.Statut.LIBRE, consultations);
+        Client client = new Client("jean", "jean", "jeanpatrice@insa-lyon.fr", "jean", sexe, "06230", "0655555555", date, profil, consultations);
+        Long idPierre = service.inscrireClient(client);
+        
+        /* faute de "creer medium" comme service j'utilise ce bout de code pour pouvoir persister le medium, pour tester le service demanderConsultation*/
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
+        EntityManager em = emf.createEntityManager();        
+        em.getTransaction().begin();
+        em.persist(medium);
+        em.persist(employe);
+        em.getTransaction().commit();
+        
+        Long consultationId = service.demanderConsultation(client, medium);
+        Long idConsultationbis = service.accepterConsultation(consultationId, employe);
+        
+        if (idConsultationbis != null) {
+            System.out.println("> Succès acceptation consultation");
+        } else {
+            System.out.println("> Échec acceptation consultation");
+        }
+        
+        boolean isFinished = service.terminerConsultation(consultationId);
+        
+        if(isFinished) {
+            System.out.println("> Succès terminer consultation");
+        } else {
+            System.out.println("> Echec termliner consultation");
+        }
     }
 
     public static void initialiserEmployes() {

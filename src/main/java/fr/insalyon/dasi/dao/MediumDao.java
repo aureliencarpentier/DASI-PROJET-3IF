@@ -5,8 +5,10 @@
  */
 package fr.insalyon.dasi.dao;
 
+import fr.insalyon.dasi.metier.modele.Employe;
 import javax.persistence.EntityManager;
 import fr.insalyon.dasi.metier.modele.Medium;
+import fr.insalyon.dasi.metier.modele.Medium.Statut;
 import java.util.List;
 import javax.persistence.TypedQuery;
 /**
@@ -26,5 +28,25 @@ public class MediumDao {
         EntityManager em = JpaUtil.obtenirContextePersistance();
         TypedQuery<Medium> query = em.createQuery("SELECT c FROM Client c ORDER BY c.nom ASC, c.prenom ASC", Medium.class);
         return query.getResultList();
+    }
+    
+    public boolean modifierStatut(Long mediumId, Statut statut) {
+        boolean res = false;
+        
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        em.getTransaction().begin();
+        
+        TypedQuery<Medium> query = em.createQuery("Update Medium m set m.statut = :statut WHERE m.id = :mediumId", Medium.class);
+        query.setParameter("statut", statut);
+        query.setParameter("mediumId", mediumId);
+        
+        int n = query.executeUpdate();
+        if(n > 0) {
+            res = true;
+            em.getTransaction().commit();
+        } else {
+            em.getTransaction().rollback();
+        }
+        return res;
     }
 }

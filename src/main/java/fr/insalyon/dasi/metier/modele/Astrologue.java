@@ -21,13 +21,13 @@ public class Astrologue extends Medium {
     private Date promotion;
     private String formation;
 
-    public Astrologue(String denomination, Sexe genre, String presentation, List<Consultation> consultations) {
-        super(denomination, genre, presentation, consultations);
+    public Astrologue(String denomination, Sexe genre, String presentation, List<Consultation> consultations, Statut statut) {
+        super(denomination, genre, presentation, consultations, statut);
     }
 
    
-    public Astrologue(String denomination, Sexe genre, String presentation, Date promotion, String formation, List<Consultation> consultations) {
-        super(denomination, genre, presentation,consultations);
+    public Astrologue(String denomination, Sexe genre, String presentation, Date promotion, String formation, List<Consultation> consultations, Statut statut) {
+        super(denomination, genre, presentation,consultations, statut);
         this.promotion = promotion;
         this.formation = formation;
     }

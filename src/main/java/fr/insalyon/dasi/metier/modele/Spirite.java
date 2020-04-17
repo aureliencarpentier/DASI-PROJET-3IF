@@ -17,13 +17,13 @@ public class Spirite extends Medium {
     
     private String support;
     
-    public Spirite(String denomination, Sexe genre, String presentation, String support, List<Consultation> consultations) {
-        super(denomination, genre, presentation, consultations);
+    public Spirite(String denomination, Sexe genre, String presentation, String support, List<Consultation> consultations, Statut statut) {
+        super(denomination, genre, presentation, consultations, statut);
         this.support = support;
     }
 
-    public Spirite(String denomination, Sexe genre, String presentation, List<Consultation> consultations) {
-        super(denomination, genre, presentation, consultations);
+    public Spirite(String denomination, Sexe genre, String presentation, List<Consultation> consultations, Statut statut) {
+        super(denomination, genre, presentation, consultations, statut);
     }
 
     public String getSupport() {

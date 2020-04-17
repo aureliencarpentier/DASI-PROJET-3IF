@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import fr.insalyon.dasi.metier.modele.Employe;
+import fr.insalyon.dasi.metier.modele.Medium;
 import java.util.Date;
 
 /**
@@ -49,10 +50,8 @@ public class ConsultationDao {
         } catch (Exception e) {
             e.printStackTrace();
             em.getTransaction().rollback();
-        } finally {
-            em.close();
         }
-<<<<<<< HEAD
+
         Long employeId = employe.getId();
         em.getTransaction().begin();
         TypedQuery<Employe> querybis = em.createQuery("UPDATE Employe e SET e.statut = :statutbis WHERE e.id = :employeId", Employe.class);
@@ -65,23 +64,25 @@ public class ConsultationDao {
             em.getTransaction().rollback();
         }
         
-=======
->>>>>>> d417824a20264666d7bf2b91d7af31cfdde5ca26
         return n;
     }
     
-    public Long terminerConsultation(Long consultationId) {
+    public boolean terminerConsultation(Long consultationId) {
+        boolean res = false;
+        
         JpaUtil.creerContextePersistance();
         EntityManager em = JpaUtil.obtenirContextePersistance();
         em.getTransaction().begin();
-        TypedQuery<Consultation> query = em.createQuery("UPDATE Consultation c SET c.employe = :employe, c.dateDebut = :dateDebut, c.statut = :statut WHERE c.id = :consultationId", Consultation.class);
-        query.setParameter("employe", employe);
-        query.setParameter("dateDebut", new Date());
+        
+        TypedQuery<Consultation> query = em.createQuery("UPDATE Consultation c SET c.dateFin = :dateFin, c.statut = :statut WHERE c.id = :consultationId", Consultation.class);
         query.setParameter("statut", Consultation.Statut.FINIE);
+        query.setParameter("dateFin", new Date());
         query.setParameter("consultationId", consultationId);
+        
         int n = query.executeUpdate();
         try {
             if (n != 0) {
+                res = true;
                 em.getTransaction().commit();
             } else {
                 em.getTransaction().rollback();
@@ -89,10 +90,8 @@ public class ConsultationDao {
         } catch (Exception e) {
             e.printStackTrace();
             em.getTransaction().rollback();
-        } finally {
-            em.close();
         }
-        return n;
+        return res;
         
     }
     // modifier / supprimer  ... 

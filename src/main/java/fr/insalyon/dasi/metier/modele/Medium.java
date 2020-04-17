@@ -21,7 +21,7 @@ import javax.persistence.OneToMany;
 @Entity
 public class Medium implements Serializable {
 
-    enum Statut {
+    public static enum Statut {
         OCCUPE,
         LIBRE
     }
@@ -35,13 +35,15 @@ public class Medium implements Serializable {
     private String presentation;
     @OneToMany
     private List<Consultation> consultations;
+    private Statut statut;
     
 
-    public Medium(String denomination, Sexe genre, String presentation, List<Consultation> consultations) {
+    public Medium(String denomination, Sexe genre, String presentation, List<Consultation> consultations, Statut statut) {
         this.denomination = denomination;
         this.genre = genre;
         this.presentation = presentation;
         this.consultations = consultations;
+        this.statut = statut;
     }
 
     public Medium() {
@@ -83,4 +85,12 @@ public class Medium implements Serializable {
         this.presentation = presentation;
     }
 
+    public Statut getStatut() {
+        return statut;
+    }
+
+    public void setStatut(Statut statut) {
+        this.statut = statut;
+    }
+    
 }
