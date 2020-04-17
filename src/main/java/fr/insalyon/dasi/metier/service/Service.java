@@ -199,16 +199,16 @@ public class Service {
     public Long accepterConsultation(Long consultationId, Employe employe){
 
 
-        JpaUtil.creerContextePersistance();
+        //JpaUtil.creerContextePersistance();
         try {
             //JpaUtil.ouvrirTransaction();            
             consultationDao.accepterConsultation(consultationId,employe);
             //JpaUtil.validerTransaction();
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service accepterConsultation()", ex);
-            JpaUtil.annulerTransaction();
+            //JpaUtil.annulerTransaction();
         } finally {
-            JpaUtil.fermerContextePersistance();
+            //JpaUtil.fermerContextePersistance();
         }
         return consultationId;
     }

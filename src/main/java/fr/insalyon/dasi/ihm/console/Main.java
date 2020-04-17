@@ -153,8 +153,9 @@ public class Main {
         em.persist(consultation);
         em.persist(esclavebis);
         em.getTransaction().commit();
+        em.close();
         emf.close();
-        consultation.setId(esclavebis.getId());
+        //consultation.setId(esclavebis.getId());
         Long consultationId = consultation.getId();
         Long idConsultationbis = service.accepterConsultation(consultationId, esclavebis);
         if (idConsultationbis != null) {
