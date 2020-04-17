@@ -35,7 +35,7 @@ public class Main {
         //testerInscriptionClient();       // Question 4 & 5
         //testerModifierClient();
 
-        testerTerminerConsultation();
+        //testerTerminerConsultation();
 
         testerDemanderConsultation();
         testerAccepterConsultation();
@@ -102,29 +102,25 @@ public class Main {
 
         Service service = new Service();
 
-        Sexe sexe = Sexe.F;
         Date date = new Date();
         ProfilAstral profil = new ProfilAstral("verseau", "tigre de terre", "blanc", "pigeon");
 
         service.creerProfilAstral(profil);
 
         List<Consultation> consultations = new ArrayList<>();
-        Medium escroc = new Medium("Escroc", Sexe.M, "je vais vous escroquer", consultations, Medium.Statut.LIBRE);
-        Employe esclave = new Employe("Esclave", "esclave", "esclave@gmail.com", Sexe.F, "0695227684", "esclavemerci", 0, Employe.Statut.LIBRE, consultations);
-        Client pierre = new Client("dupont", "pierre", "pierrebis@insa-lyon.fr", "pierre123", sexe, "06230", "0655555555", date, profil, consultations);
+        Medium medium = new Medium("Escroc", Sexe.M, "je vais vous escroquer", consultations, Medium.Statut.LIBRE);
+        Client pierre = new Client("dupont", "pierre", "pierrebis@insa-lyon.fr", "pierre123", Sexe.F, "06230", "0655555555", date, profil, consultations);
         Long idPierre = service.inscrireClient(pierre);
 
-        /* faute de "creer medium" comme service j'utilise ce bout de code pour pouvoir persister le medium, pour tester le service demanderConsultation*/
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        em.persist(escroc);
-        em.persist(esclave);
+        em.persist(medium);
         em.getTransaction().commit();
         emf.close();
 
-        Long consultationId = service.demanderConsultation(pierre, escroc);
-        //Long idConsultationbis = service.accepterConsultation(consultationId, esclave);       
+        Long consultationId = service.demanderConsultation(pierre, medium);
+
         if (consultationId != null) {
             System.out.println("> Succès demande consultation");
         } else {
@@ -148,24 +144,23 @@ public class Main {
         service.creerProfilAstral(profil);
 
         List<Consultation> consultations = new ArrayList<>();
-        Medium escrocbis = new Medium("Escrocbis", Sexe.M, "je vais vous escroquerbis", consultations, Medium.Statut.LIBRE);
-        Employe esclavebis = new Employe("Esclave", "esclave", "esclavebis@gmail.com", Sexe.F, "0695227684", "esclavemerci", 0, Employe.Statut.LIBRE, consultations);
+        Medium medium = new Medium("Escrocbis", Sexe.M, "je vais vous escroquerbis", consultations, Medium.Statut.LIBRE);
         Client pierrebis = new Client("dupont", "pierre", "pierretris@insa-lyon.fr", "pierre123", sexe, "06230", "0655555555", date, profil, consultations);
         Long idPierre = service.inscrireClient(pierrebis);
         Consultation consultation = new Consultation();
+        
         /* faute de "creer medium" comme service j'utilise ce bout de code pour pouvoir persister le medium, pour tester le service demanderConsultation*/
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        em.persist(escrocbis);
+        em.persist(medium);
         em.persist(consultation);
-        em.persist(esclavebis);
         em.getTransaction().commit();
         em.close();
-        emf.close();
+        
         //consultation.setId(esclavebis.getId());
         Long consultationId = consultation.getId();
-        Long idConsultationbis = service.accepterConsultation(consultationId, esclavebis);
+        Long idConsultationbis = service.accepterConsultation(consultationId);
         if (idConsultationbis != null) {
             System.out.println("> Succès acceptation consultation");
         } else {
@@ -189,7 +184,6 @@ public class Main {
 
         List<Consultation> consultations = new ArrayList<>();
         Medium medium = new Medium("salvator", Sexe.M, "je vais vous escroquerbis", consultations, Medium.Statut.LIBRE);
-        Employe employe = new Employe("Macron", "Emmanuel", "emmanuelMacron@gmail.com", Sexe.M, "0695227684", "macron macron", 0, Employe.Statut.LIBRE, consultations);
         Client client = new Client("jean", "jean", "jeanpatrice@insa-lyon.fr", "jean", sexe, "06230", "0655555555", date, profil, consultations);
         Long idPierre = service.inscrireClient(client);
 
@@ -198,12 +192,11 @@ public class Main {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(medium);
-        em.persist(employe);
         em.getTransaction().commit();
-        //em.close();
+        em.close();
 
         Long consultationId = service.demanderConsultation(client, medium);
-        Long idConsultationbis = service.accepterConsultation(consultationId, employe);
+        Long idConsultationbis = service.accepterConsultation(consultationId);
 
         if (idConsultationbis != null) {
             System.out.println("> Succès acceptation consultation");
@@ -237,7 +230,7 @@ public class Main {
         List<Consultation> consultations = new ArrayList<>();
         Medium annuler = new Medium("annuler", Sexe.M, "je vais vous escroquer", consultations, Medium.Statut.LIBRE);
         //Employe annu = new Employe("annu", "mannu", "mannu@gmail.com", Sexe.F, "0695227684", "esclavemerci", 0, Employe.Statut.LIBRE, consultations);
-        Client Jannule = new Client("nique", "ta", "mere", "grosse", sexe, "pute", "jj", date, profil, consultations);
+        Client Jannule = new Client("Eric", "Couscous", "eric@gmail.cousous", "mdpmdp", sexe, "75000", "0699989796", date, profil, consultations);
         Long idJannule = service.inscrireClient(Jannule);
 
         /* faute de "creer medium" comme service j'utilise ce bout de code pour pouvoir persister le medium, pour tester le service demanderConsultation*/
@@ -250,9 +243,9 @@ public class Main {
         Long consultationNonAnnuleeId = service.demanderConsultation(Jannule, annuler);
         //Long idConsultationbis = service.accepterConsultation(consultationId, esclave);       
         if (consultationNonAnnuleeId != null) {
-            System.out.println("> Succès demande consultation");
+            System.out.println("> Succès annulation consultation");
         } else {
-            System.out.println("> Échec demande consultation");
+            System.out.println("> Échec annulation consultation");
         }
         Long consultationAnnuleeId = service.annulerConsultation(consultationNonAnnuleeId);
     }
@@ -265,17 +258,15 @@ public class Main {
 
         Service service = new Service();
 
-        Sexe sexe = Sexe.F;
         Date date = new Date();
-        ProfilAstral profil = new ProfilAstral("jte", "demarre", "blanca", "pigeona");
+        ProfilAstral profil = new ProfilAstral("CAncer", "dragon", "noir clair", "tigre des mers");
 
         service.creerProfilAstral(profil);
 
         List<Consultation> consultations = new ArrayList<>();
-        Medium demarrage = new Medium("demarrage", Sexe.M, "je vais vous escroquer", consultations, Medium.Statut.LIBRE);
-        //Employe annu = new Employe("annu", "mannu", "mannu@gmail.com", Sexe.F, "0695227684", "esclavemerci", 0, Employe.Statut.LIBRE, consultations);
-        Client Jtedemarre = new Client("Je", "te", "demarre", "merci", sexe, "pute", "jj", date, profil, consultations);
-        Long idJtedemarre = service.inscrireClient(Jtedemarre);
+        Medium demarrage = new Medium("mediumage", Sexe.M, "meiolleur medium de france", consultations, Medium.Statut.LIBRE);
+        Client client = new Client("jean", "lasalle", "lasalle@yahou.com", "lasalle12345", Sexe.M, "75000", "0698979996", date, profil, consultations);
+        Long clientId = service.inscrireClient(client);
 
         /* faute de "creer medium" comme service j'utilise ce bout de code pour pouvoir persister le medium, pour tester le service demanderConsultation*/
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
@@ -284,14 +275,15 @@ public class Main {
         em.persist(demarrage);
         em.getTransaction().commit();
 
-        Long consultationNonDemarreeId = service.demanderConsultation(Jtedemarre, demarrage);
-        //Long idConsultationbis = service.accepterConsultation(consultationId, esclave);       
-        if (consultationNonDemarreeId != null) {
-            System.out.println("> Succès demande consultation");
-        } else {
-            System.out.println("> Échec demande consultation");
-        }
+        Long consultationNonDemarreeId = service.demanderConsultation(client, demarrage);
+        service.accepterConsultation(consultationNonDemarreeId);       
+       
         Long consultationDemarreeId = service.demarrerConsultation(consultationNonDemarreeId);
+         if (consultationDemarreeId != null) {
+            System.out.println("> Succès demarrage consultation");
+        } else {
+            System.out.println("> Échec demarrage consultation");
+        }
     }
 
     public static void initialiserEmployes() {
@@ -303,8 +295,8 @@ public class Main {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
         EntityManager em = emf.createEntityManager();
 
-        Employe e1 = new Employe("dupont", "christine", "christine@employe.com", Sexe.F, "0655555555", "christine123", 5, Employe.Statut.LIBRE, new ArrayList<Consultation>());
-        Employe e2 = new Employe("Ish", "Francois", "francois@employe.com", Sexe.M, "0674555895", "francois123", 1, Employe.Statut.LIBRE, new ArrayList<Consultation>());
+        Employe e1 = new Employe("dupont", "christine", "christine@employe.com", Sexe.F, "0655555555", "christine123", 0, Employe.Statut.LIBRE, new ArrayList<Consultation>());
+        Employe e2 = new Employe("Ish", "Francois", "francois@employe.com", Sexe.M, "0674555895", "francois123", 0, Employe.Statut.LIBRE, new ArrayList<Consultation>());
 
         try {
             em.getTransaction().begin();
@@ -313,7 +305,9 @@ public class Main {
             em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
+            em.getTransaction().rollback();
         }
+        em.close();
     }
 
     public static void testerInscriptionClient() {
@@ -449,7 +443,7 @@ public class Main {
 
         Sexe sexe = Sexe.F;
         Date date = Date.from(Instant.MIN);
-        ProfilAstral profil = new ProfilAstral("cancer", "Dragon de metal", "Turquoise", "Chatte");
+        ProfilAstral profil = new ProfilAstral("cancer", "Dragon de metal", "Turquoise", "Chat");
         List<Consultation> consultations = new ArrayList<>();
         Client client = new Client(nom, prenom, mail, motDePasse, sexe, "75019", "0695227164", date, profil, consultations);
         Long idClient = service.inscrireClient(client);

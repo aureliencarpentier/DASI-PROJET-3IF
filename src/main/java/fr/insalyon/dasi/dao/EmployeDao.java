@@ -56,13 +56,21 @@ public class EmployeDao {
     }
     
     public Employe chercherEmployePourConsultation(Sexe s) {
+        Employe e;
         EntityManager em = JpaUtil.obtenirContextePersistance();
-        TypedQuery<Employe> query = em.createQuery("SELECT e FROM Employe e WHERE e.sexe = :sexe AND e.statut = :statut", Employe.class);
+        TypedQuery<Employe> query = em.createQuery("SELECT e FROM Employe e WHERE e.sexe = :sexe AND e.statut = :statut ORDER BY e.nombreConsultation ASC", Employe.class);
         
         query.setParameter("sexe", s);
         query.setParameter("statut", Employe.Statut.LIBRE);
-        return query.getResultList().get(0);
-         
+        
+        List<Employe> emps = query.getResultList();
+        if(emps.isEmpty()) {
+            e = null;
+        } else {
+            e = emps.get(0);
+        }
+        
+        return e;
     } 
     
     /*public Consultation chercherConsultationEnCours(String employeEmail) {

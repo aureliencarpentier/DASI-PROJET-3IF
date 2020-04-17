@@ -16,7 +16,6 @@ import fr.insalyon.dasi.metier.modele.Medium;
 import fr.insalyon.dasi.metier.modele.ProfilAstral;
 import fr.insalyon.dasi.metier.modele.Sexe;
 import java.util.Date;
-import javax.persistence.EntityManager;
 
 /**
  *
@@ -184,15 +183,15 @@ public class Service {
         JpaUtil.creerContextePersistance();
         Long id = null;
         Employe employe = employeDao.chercherEmployePourConsultation(medium.getGenre());
-        
+
         // Check si il y a un employe de disponible
         if (employe == null) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Aucun employé disponible");
             return null;
         }
-        
+
         Consultation consultation = new Consultation(Consultation.Statut.ENATTENTE, new Date(), null, null, null, employe, medium, client);
-        
+
         try {
             JpaUtil.ouvrirTransaction();
             consultationDao.creer(consultation);
@@ -201,24 +200,24 @@ public class Service {
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service demanderConsultation()", ex);
             JpaUtil.annulerTransaction();
-        } finally {
-            JpaUtil.fermerContextePersistance();
         }
+        JpaUtil.fermerContextePersistance();
+
         return id;
     }
 
-    public Long accepterConsultation(Long consultationId, Employe employe) {
-        //JpaUtil.creerContextePersistance();
+    public Long accepterConsultation(Long consultationId) {
+        JpaUtil.creerContextePersistance();
         try {
-            //JpaUtil.ouvrirTransaction();            
-            consultationDao.accepterConsultation(consultationId, employe);
-            //JpaUtil.validerTransaction();
+            JpaUtil.ouvrirTransaction();
+            consultationDao.accepterConsultation(consultationId);
+            JpaUtil.validerTransaction();
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service accepterConsultation()", ex);
-            //JpaUtil.annulerTransaction();
-        } finally {
-            //JpaUtil.fermerContextePersistance();
+            JpaUtil.annulerTransaction();
         }
+        JpaUtil.fermerContextePersistance();
+
         return consultationId;
     }
 
@@ -226,42 +225,50 @@ public class Service {
         JpaUtil.creerContextePersistance();
 
         Consultation c = consultationDao.chercherParId(consultationId);
+
         Employe e = c.getEmploye();
         Medium m = c.getMedium();
         Client client = c.getClient();
 
+        boolean res = false;
         try {
-            JpaUtil.ouvrirTransaction();
-            client.getConsultations().add(c);
-            e.getConsultations().add(c);
-            m.getConsultations().add(c);
-            JpaUtil.validerTransaction();
+            res = consultationDao.terminerConsultation(consultationId);
         } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service terminerConsultation()", ex);
-        } finally {
-            JpaUtil.fermerContextePersistance();
+            Logger.getLogger(Service.class.getName()).log(Level.SEVERE, "Exception lors de l'appel au Service terminerConsultation()", ex);
         }
 
-        boolean res = consultationDao.terminerConsultation(consultationId);
-        employeDao.modifierStatut(e.getId(), Employe.Statut.LIBRE);
-        mediumDao.modifierStatut(m.getId(), Medium.Statut.LIBRE);
+        if (res) {
+            try {
+                JpaUtil.ouvrirTransaction();
+                client.getConsultations().add(c);
+                e.getConsultations().add(c);
+                m.getConsultations().add(c);
+                e.setNombreConsultation(e.getNombreConsultation() + 1);
+                JpaUtil.validerTransaction();
+            } catch (Exception ex) {
+                Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service terminerConsultation()", ex);
+            }
 
+            employeDao.modifierStatut(e.getId(), Employe.Statut.LIBRE);
+            mediumDao.modifierStatut(m.getId(), Medium.Statut.LIBRE);
+        }
+        JpaUtil.fermerContextePersistance();
         return res;
     }
 
     public Long annulerConsultation(Long consultationId) {
 
-        //JpaUtil.creerContextePersistance();
+        JpaUtil.creerContextePersistance();
         try {
-            //JpaUtil.ouvrirTransaction();            
+            JpaUtil.ouvrirTransaction();
             consultationDao.annulerConsultation(consultationId);
-            //JpaUtil.validerTransaction();
+            JpaUtil.validerTransaction();
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service annulerConsultation()", ex);
-            //JpaUtil.annulerTransaction();
-        } finally {
-            //JpaUtil.fermerContextePersistance();
+            JpaUtil.annulerTransaction();
         }
+        JpaUtil.fermerContextePersistance();
+
         return consultationId;
     }
 
@@ -271,13 +278,12 @@ public class Service {
         try {
             JpaUtil.ouvrirTransaction();
             consultationDao.demarrerConsultation(consultationId);
-            //JpaUtil.validerTransaction();
+            JpaUtil.validerTransaction();
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service demarrerConsultation()", ex);
             JpaUtil.annulerTransaction();
-        } finally {
-            JpaUtil.fermerContextePersistance();
         }
+        JpaUtil.fermerContextePersistance();
 
         return consultationId;
     }
