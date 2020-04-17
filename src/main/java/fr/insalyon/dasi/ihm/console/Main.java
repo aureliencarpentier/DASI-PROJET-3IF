@@ -10,10 +10,8 @@ import fr.insalyon.dasi.metier.modele.Sexe;
 import fr.insalyon.dasi.metier.service.Service;
 import fr.insalyon.dasi.utils.AstroAPI;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -202,7 +200,7 @@ public class Main {
         em.persist(medium);
         em.persist(employe);
         em.getTransaction().commit();
-        em.close();
+        //em.close();
 
         Long consultationId = service.demanderConsultation(client, medium);
         Long idConsultationbis = service.accepterConsultation(consultationId, employe);

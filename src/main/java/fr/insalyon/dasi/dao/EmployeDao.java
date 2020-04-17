@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import fr.insalyon.dasi.metier.modele.Employe;
 import fr.insalyon.dasi.metier.modele.Employe.Statut;
+import fr.insalyon.dasi.metier.modele.Sexe;
 
 /**
  *
@@ -53,6 +54,16 @@ public class EmployeDao {
         e.setStatut(statut);
         em.getTransaction().commit();
     }
+    
+    public Employe chercherEmployePourConsultation(Sexe s) {
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        TypedQuery<Employe> query = em.createQuery("SELECT e FROM Employe e WHERE e.sexe = :sexe AND e.statut = :statut", Employe.class);
+        
+        query.setParameter("sexe", s);
+        query.setParameter("statut", Employe.Statut.LIBRE);
+        return query.getResultList().get(0);
+         
+    } 
     
     /*public Consultation chercherConsultationEnCours(String employeEmail) {
         

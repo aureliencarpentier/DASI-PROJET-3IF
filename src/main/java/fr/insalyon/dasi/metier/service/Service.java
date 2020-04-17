@@ -181,22 +181,30 @@ public class Service {
     }
 
     public Long demanderConsultation(Client client, Medium medium) {
-
-        Consultation consultation = new Consultation(Consultation.Statut.ENATTENTE, new Date(), null, null, null, null, medium, client);
-        Long res = null;
         JpaUtil.creerContextePersistance();
+        Long id = null;
+        Employe employe = employeDao.chercherEmployePourConsultation(medium.getGenre());
+        
+        // Check si il y a un employe de disponible
+        if (employe == null) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Aucun employé disponible");
+            return null;
+        }
+        
+        Consultation consultation = new Consultation(Consultation.Statut.ENATTENTE, new Date(), null, null, null, employe, medium, client);
+        
         try {
             JpaUtil.ouvrirTransaction();
             consultationDao.creer(consultation);
             JpaUtil.validerTransaction();
-            res = consultation.getId();
+            id = consultation.getId();
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service demanderConsultation()", ex);
             JpaUtil.annulerTransaction();
         } finally {
             JpaUtil.fermerContextePersistance();
         }
-        return res;
+        return id;
     }
 
     public Long accepterConsultation(Long consultationId, Employe employe) {
