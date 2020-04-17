@@ -35,8 +35,7 @@ public class ConsultationDao {
         JpaUtil.creerContextePersistance();
         EntityManager em = JpaUtil.obtenirContextePersistance();
         em.getTransaction().begin();
-        TypedQuery<Consultation> query = em.createQuery("UPDATE Consultation c SET c.employe = :employe, c.dateDebut = :dateDebut, c.statut = :statut WHERE c.id = :consultationId", Consultation.class);
-        query.setParameter("employe", employe);
+        TypedQuery<Consultation> query = em.createQuery("UPDATE Consultation c SET  c.dateDebut = :dateDebut, c.statut = :statut WHERE c.id = :consultationId", Consultation.class);
         query.setParameter("dateDebut", new Date());
         query.setParameter("statut", Consultation.Statut.ACCEPTEE);
         query.setParameter("consultationId", consultationId);
@@ -49,18 +48,6 @@ public class ConsultationDao {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
-        }
-
-        Long employeId = employe.getId();
-        em.getTransaction().begin();
-        TypedQuery<Employe> querybis = em.createQuery("UPDATE Employe e SET e.statut = :statutbis WHERE e.id = :employeId", Employe.class);
-        querybis.setParameter("statutbis", Employe.Statut.OCCUPE);
-        querybis.setParameter("employeId", employeId);
-        int nbis = querybis.executeUpdate();
-        if (nbis != 0) {
-            em.getTransaction().commit();
-        } else {
             em.getTransaction().rollback();
         }
 
