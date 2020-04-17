@@ -54,5 +54,31 @@ public class ConsultationDao {
         }
         return n;
     }
+    
+    public Long terminerConsultation(Long consultationId) {
+        JpaUtil.creerContextePersistance();
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        em.getTransaction().begin();
+        TypedQuery<Consultation> query = em.createQuery("UPDATE Consultation c SET c.employe = :employe, c.dateDebut = :dateDebut, c.statut = :statut WHERE c.id = :consultationId", Consultation.class);
+        query.setParameter("employe", employe);
+        query.setParameter("dateDebut", new Date());
+        query.setParameter("statut", Consultation.Statut.FINIE);
+        query.setParameter("consultationId", consultationId);
+        int n = query.executeUpdate();
+        try {
+            if (n != 0) {
+                em.getTransaction().commit();
+            } else {
+                em.getTransaction().rollback();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            em.getTransaction().rollback();
+        } finally {
+            em.close();
+        }
+        return n;
+        
+    }
     // modifier / supprimer  ... 
 }

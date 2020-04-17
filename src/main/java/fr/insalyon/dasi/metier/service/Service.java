@@ -212,4 +212,8 @@ public class Service {
         }
         return consultationId;
     }
+    
+    public Long terminerConsultation(Long consultationId) {
+        
+    }
 }
