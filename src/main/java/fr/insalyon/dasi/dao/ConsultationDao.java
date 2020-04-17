@@ -43,6 +43,17 @@ public class ConsultationDao {
         } else {
             em.getTransaction().rollback();
         }
+        Long employeId = employe.getId();
+        em.getTransaction().begin();
+        TypedQuery<Employe> querybis = em.createQuery("UPDATE Employe e SET e.statut = :statutbis WHERE e.id = :employeId", Employe.class);
+        querybis.setParameter("statutbis", Employe.Statut.OCCUPE);
+        querybis.setParameter("employeId", employeId);
+        int nbis = querybis.executeUpdate();
+        if(nbis != 0) {
+            em.getTransaction().commit();
+        } else {
+            em.getTransaction().rollback();
+        }
         
         return n;
     }

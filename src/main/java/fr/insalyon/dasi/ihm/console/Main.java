@@ -108,9 +108,10 @@ public class Main {
         em.persist(esclave);
         em.getTransaction().commit();
         emf.close();
-        
+
+
         Long consultationId = service.demanderConsultation(pierre, escroc);
-        
+        //Long idConsultationbis = service.accepterConsultation(consultationId, esclave);       
         if (consultationId != null) {
             System.out.println("> Succès demande consultation");
         } else {
