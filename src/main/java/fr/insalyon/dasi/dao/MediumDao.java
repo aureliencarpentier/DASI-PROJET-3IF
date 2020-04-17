@@ -30,23 +30,11 @@ public class MediumDao {
         return query.getResultList();
     }
     
-    public boolean modifierStatut(Long mediumId, Statut statut) {
-        boolean res = false;
-        
+    public void modifierStatut(Long mediumId, Statut statut) {
+        Medium m = chercherParId(mediumId);
         EntityManager em = JpaUtil.obtenirContextePersistance();
         em.getTransaction().begin();
-        
-        TypedQuery<Medium> query = em.createQuery("Update Medium m set m.statut = :statut WHERE m.id = :mediumId", Medium.class);
-        query.setParameter("statut", statut);
-        query.setParameter("mediumId", mediumId);
-        
-        int n = query.executeUpdate();
-        if(n > 0) {
-            res = true;
-            em.getTransaction().commit();
-        } else {
-            em.getTransaction().rollback();
-        }
-        return res;
+        m.setStatut(statut);
+        em.getTransaction().commit();
     }
 }

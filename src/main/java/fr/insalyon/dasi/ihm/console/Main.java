@@ -1,7 +1,6 @@
 package fr.insalyon.dasi.ihm.console;
 
 import fr.insalyon.dasi.dao.JpaUtil;
-import fr.insalyon.dasi.dao.MediumDao;
 import fr.insalyon.dasi.metier.modele.Client;
 import fr.insalyon.dasi.metier.modele.Consultation;
 import fr.insalyon.dasi.metier.modele.Employe;
@@ -9,12 +8,14 @@ import fr.insalyon.dasi.metier.modele.Medium;
 import fr.insalyon.dasi.metier.modele.ProfilAstral;
 import fr.insalyon.dasi.metier.modele.Sexe;
 import fr.insalyon.dasi.metier.service.Service;
+import fr.insalyon.dasi.utils.AstroAPI;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -65,35 +66,41 @@ public class Main {
         EntityManager em = emf.createEntityManager();
 
         Service service = new Service();
+        AstroAPI astro = new AstroAPI();
 
-        Sexe sexe = Sexe.F;
+        String prenom = "Ada";
         Date date = new Date();
-        ProfilAstral profil = new ProfilAstral("cancer", "Dragon de metal", "Turquoise", "Chatte");
+        List<String> profilAstroFromAPI;
+        ProfilAstral profil;
+        try {
+            profilAstroFromAPI = astro.getProfil(prenom, date);
+            profil = new ProfilAstral(profilAstroFromAPI.get(0), profilAstroFromAPI.get(1), profilAstroFromAPI.get(2), profilAstroFromAPI.get(3));
+            service.creerProfilAstral(profil);
+            Sexe sexe = Sexe.F;
 
-        service.creerProfilAstral(profil);
+            List<Consultation> consultations = new ArrayList<>();
+            Client ada = new Client("Lovelace", prenom, "ada.lovelace@insa-lyon.fr", "Ada1012", sexe, "75019", "0695227164", date, profil, consultations);
+            System.out.println();
+            System.out.println("** Client avant persistance: ");
+            afficherClient(ada);
+            System.out.println();
 
-        List<Consultation> consultations = new ArrayList<>();
-        Client ada = new Client("Lovelace", "Ada", "ada.lovelace@insa-lyon.fr", "Ada1012", sexe, "75019", "0695227164", date, profil, consultations);
+            service.inscrireClient(ada);
 
-        System.out.println();
-        System.out.println("** Client avant persistance: ");
-        afficherClient(ada);
-        System.out.println();
+            System.out.println();
+            System.out.println("** Clients après persistance: ");
+            afficherClient(ada);
+            System.out.println();
+        } catch (IOException e) {
+        }
 
-        service.inscrireClient(ada);
-
-        System.out.println();
-        System.out.println("** Clients après persistance: ");
-        afficherClient(ada);
-        System.out.println();
     }
-    
-   public static void testerDemanderConsultation() {
+
+    public static void testerDemanderConsultation() {
 
         System.out.println();
         System.out.println("**** testerDemanderConsultation() ****");
         System.out.println();
-
 
         Service service = new Service();
 
@@ -102,7 +109,7 @@ public class Main {
         ProfilAstral profil = new ProfilAstral("verseau", "tigre de terre", "blanc", "pigeon");
 
         service.creerProfilAstral(profil);
-        
+
         List<Consultation> consultations = new ArrayList<>();
         Medium escroc = new Medium("Escroc", Sexe.M, "je vais vous escroquer", consultations, Medium.Statut.LIBRE);
         Employe esclave = new Employe("Esclave", "esclave", "esclave@gmail.com", Sexe.F, "0695227684", "esclavemerci", 0, Employe.Statut.LIBRE, consultations);
@@ -111,13 +118,12 @@ public class Main {
 
         /* faute de "creer medium" comme service j'utilise ce bout de code pour pouvoir persister le medium, pour tester le service demanderConsultation*/
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
-        EntityManager em = emf.createEntityManager();        
+        EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(escroc);
         em.persist(esclave);
         em.getTransaction().commit();
         emf.close();
-
 
         Long consultationId = service.demanderConsultation(pierre, escroc);
         //Long idConsultationbis = service.accepterConsultation(consultationId, esclave);       
@@ -126,7 +132,6 @@ public class Main {
         } else {
             System.out.println("> Échec demande consultation");
         }
-        
 
     }
 
@@ -136,7 +141,6 @@ public class Main {
         System.out.println("**** testerAccepterConsultation() ****");
         System.out.println();
 
-
         Service service = new Service();
 
         Sexe sexe = Sexe.F;
@@ -144,7 +148,7 @@ public class Main {
         ProfilAstral profil = new ProfilAstral("verseau", "tigre de terre", "blanc", "pigeon");
 
         service.creerProfilAstral(profil);
-        
+
         List<Consultation> consultations = new ArrayList<>();
         Medium escrocbis = new Medium("Escrocbis", Sexe.M, "je vais vous escroquerbis", consultations, Medium.Statut.LIBRE);
         Employe esclavebis = new Employe("Esclave", "esclave", "esclavebis@gmail.com", Sexe.F, "0695227684", "esclavemerci", 0, Employe.Statut.LIBRE, consultations);
@@ -153,7 +157,7 @@ public class Main {
         Consultation consultation = new Consultation();
         /* faute de "creer medium" comme service j'utilise ce bout de code pour pouvoir persister le medium, pour tester le service demanderConsultation*/
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
-        EntityManager em = emf.createEntityManager();        
+        EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(escrocbis);
         em.persist(consultation);
@@ -170,13 +174,12 @@ public class Main {
             System.out.println("> Échec acceptation consultation");
         }
     }
-    
+
     public static void testerTerminerConsultation() {
 
         System.out.println();
         System.out.println("**** testerTerminerConsultation() ****");
         System.out.println();
-
 
         Service service = new Service();
 
@@ -185,33 +188,34 @@ public class Main {
         ProfilAstral profil = new ProfilAstral("cancer", "verre d'eau", "rouge", "castor");
 
         service.creerProfilAstral(profil);
-        
+
         List<Consultation> consultations = new ArrayList<>();
         Medium medium = new Medium("salvator", Sexe.M, "je vais vous escroquerbis", consultations, Medium.Statut.LIBRE);
         Employe employe = new Employe("Macron", "Emmanuel", "emmanuelMacron@gmail.com", Sexe.M, "0695227684", "macron macron", 0, Employe.Statut.LIBRE, consultations);
         Client client = new Client("jean", "jean", "jeanpatrice@insa-lyon.fr", "jean", sexe, "06230", "0655555555", date, profil, consultations);
         Long idPierre = service.inscrireClient(client);
-        
+
         /* faute de "creer medium" comme service j'utilise ce bout de code pour pouvoir persister le medium, pour tester le service demanderConsultation*/
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
-        EntityManager em = emf.createEntityManager();        
+        EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(medium);
         em.persist(employe);
         em.getTransaction().commit();
-        
+        em.close();
+
         Long consultationId = service.demanderConsultation(client, medium);
         Long idConsultationbis = service.accepterConsultation(consultationId, employe);
-        
+
         if (idConsultationbis != null) {
             System.out.println("> Succès acceptation consultation");
         } else {
             System.out.println("> Échec acceptation consultation");
         }
-        
+
         boolean isFinished = service.terminerConsultation(consultationId);
-        
-        if(isFinished) {
+
+        if (isFinished) {
             System.out.println("> Succès terminer consultation");
         } else {
             System.out.println("> Echec termliner consultation");
@@ -224,7 +228,6 @@ public class Main {
         System.out.println("**** testerAnnulerConsultation() ****");
         System.out.println();
 
-
         Service service = new Service();
 
         Sexe sexe = Sexe.F;
@@ -232,7 +235,7 @@ public class Main {
         ProfilAstral profil = new ProfilAstral("verseaua", "tigre de terrea", "blanca", "pigeona");
 
         service.creerProfilAstral(profil);
-        
+
         List<Consultation> consultations = new ArrayList<>();
         Medium annuler = new Medium("annuler", Sexe.M, "je vais vous escroquer", consultations, Medium.Statut.LIBRE);
         //Employe annu = new Employe("annu", "mannu", "mannu@gmail.com", Sexe.F, "0695227684", "esclavemerci", 0, Employe.Statut.LIBRE, consultations);
@@ -241,12 +244,10 @@ public class Main {
 
         /* faute de "creer medium" comme service j'utilise ce bout de code pour pouvoir persister le medium, pour tester le service demanderConsultation*/
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
-        EntityManager em = emf.createEntityManager();        
+        EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(annuler);
         em.getTransaction().commit();
-
-
 
         Long consultationNonAnnuleeId = service.demanderConsultation(Jannule, annuler);
         //Long idConsultationbis = service.accepterConsultation(consultationId, esclave);       
@@ -257,13 +258,12 @@ public class Main {
         }
         Long consultationAnnuleeId = service.annulerConsultation(consultationNonAnnuleeId);
     }
-       
+
     public static void testerDemarrerConsultation() {
 
         System.out.println();
         System.out.println("**** testerDemarrerConsultation() ****");
         System.out.println();
-
 
         Service service = new Service();
 
@@ -272,7 +272,7 @@ public class Main {
         ProfilAstral profil = new ProfilAstral("jte", "demarre", "blanca", "pigeona");
 
         service.creerProfilAstral(profil);
-        
+
         List<Consultation> consultations = new ArrayList<>();
         Medium demarrage = new Medium("demarrage", Sexe.M, "je vais vous escroquer", consultations, Medium.Statut.LIBRE);
         //Employe annu = new Employe("annu", "mannu", "mannu@gmail.com", Sexe.F, "0695227684", "esclavemerci", 0, Employe.Statut.LIBRE, consultations);
@@ -281,12 +281,10 @@ public class Main {
 
         /* faute de "creer medium" comme service j'utilise ce bout de code pour pouvoir persister le medium, pour tester le service demanderConsultation*/
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
-        EntityManager em = emf.createEntityManager();        
+        EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(demarrage);
         em.getTransaction().commit();
-
-
 
         Long consultationNonDemarreeId = service.demanderConsultation(Jtedemarre, demarrage);
         //Long idConsultationbis = service.accepterConsultation(consultationId, esclave);       
@@ -297,7 +295,7 @@ public class Main {
         }
         Long consultationDemarreeId = service.demarrerConsultation(consultationNonDemarreeId);
     }
-    
+
     public static void initialiserEmployes() {
 
         System.out.println();
@@ -344,7 +342,7 @@ public class Main {
         }
         afficherClient(pierretris);
     }
-    
+
     public static void testerRechercheClient() {
 
         System.out.println();
