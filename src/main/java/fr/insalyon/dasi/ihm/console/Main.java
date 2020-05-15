@@ -125,8 +125,8 @@ public class Main {
         em.persist(medium);
         em.getTransaction().commit();
         emf.close();
-
-        Long consultationId = service.demanderConsultation(pierre, medium);
+        Long mediumId = medium.getId();
+        Long consultationId = service.demanderConsultation(idPierre, mediumId);
 
         if (consultationId != null) {
             System.out.println("> Succès demande consultation");
@@ -201,8 +201,10 @@ public class Main {
         em.persist(medium);
         em.getTransaction().commit();
         em.close();
-
-        Long consultationId = service.demanderConsultation(client, medium);
+        Long clientId = client.getId();
+        Long mediumId = medium.getId();
+        
+        Long consultationId = service.demanderConsultation(clientId, mediumId);
         Long idConsultationbis = service.accepterConsultation(consultationId);
 
         if (idConsultationbis != null) {
@@ -246,8 +248,9 @@ public class Main {
         em.getTransaction().begin();
         em.persist(annuler);
         em.getTransaction().commit();
-
-        Long consultationNonAnnuleeId = service.demanderConsultation(Jannule, annuler);
+        Long JannuleId = Jannule.getId();
+        Long annulerId = annuler.getId();
+        Long consultationNonAnnuleeId = service.demanderConsultation(JannuleId, annulerId);
         //Long idConsultationbis = service.accepterConsultation(consultationId, esclave);       
         if (consultationNonAnnuleeId != null) {
             System.out.println("> Succès annulation consultation");
@@ -281,8 +284,8 @@ public class Main {
         em.getTransaction().begin();
         em.persist(demarrage);
         em.getTransaction().commit();
-
-        Long consultationNonDemarreeId = service.demanderConsultation(client, demarrage);
+        Long demarrageId = demarrage.getId();
+        Long consultationNonDemarreeId = service.demanderConsultation(clientId, demarrageId);
         service.accepterConsultation(consultationNonDemarreeId);       
        
         Long consultationDemarreeId = service.demarrerConsultation(consultationNonDemarreeId);
