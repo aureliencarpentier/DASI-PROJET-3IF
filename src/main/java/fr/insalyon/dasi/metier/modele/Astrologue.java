@@ -21,6 +21,11 @@ public class Astrologue extends Medium {
     private Date promotion;
     private String formation;
 
+    public Astrologue()
+    {
+        
+    }
+    
     public Astrologue(String denomination, Sexe genre, String presentation, List<Consultation> consultations, Statut statut) {
         super(denomination, genre, presentation, consultations, statut);
     }

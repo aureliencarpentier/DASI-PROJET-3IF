@@ -14,9 +14,13 @@ import javax.persistence.Entity;
  */
 @Entity
 public class Spirite extends Medium {
-    
+
     private String support;
-    
+
+    public Spirite() {
+
+    }
+
     public Spirite(String denomination, Sexe genre, String presentation, String support, List<Consultation> consultations, Statut statut) {
         super(denomination, genre, presentation, consultations, statut);
         this.support = support;

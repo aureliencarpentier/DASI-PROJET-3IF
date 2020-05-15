@@ -1,18 +1,24 @@
 package fr.insalyon.dasi.ihm.console;
 
 import fr.insalyon.dasi.dao.JpaUtil;
+import fr.insalyon.dasi.metier.modele.Astrologue;
+import fr.insalyon.dasi.metier.modele.Cartomancien;
 import fr.insalyon.dasi.metier.modele.Client;
 import fr.insalyon.dasi.metier.modele.Consultation;
 import fr.insalyon.dasi.metier.modele.Employe;
 import fr.insalyon.dasi.metier.modele.Medium;
 import fr.insalyon.dasi.metier.modele.ProfilAstral;
 import fr.insalyon.dasi.metier.modele.Sexe;
+import fr.insalyon.dasi.metier.modele.Spirite;
 import fr.insalyon.dasi.metier.service.Service;
 import fr.insalyon.dasi.utils.AstroAPI;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -30,17 +36,18 @@ public class Main {
         // Contrôlez l'affichage du log de JpaUtil grâce à la méthode log de la classe JpaUtil
         JpaUtil.init();
 
-        initialiserClients();            // Question 3
-        initialiserEmployes();
+        //initialiserClients();            // Question 3
+        //initialiserEmployes();
+        initialiserMediums();
         //testerInscriptionClient();       // Question 4 & 5
         //testerModifierClient();
 
         //testerTerminerConsultation();
 
-        testerDemanderConsultation();
-        testerAccepterConsultation();
-        testerAnnulerConsultation();
-        testerDemarrerConsultation();
+        //testerDemanderConsultation();
+        //testerAccepterConsultation();
+        //testerAnnulerConsultation();
+        //testerDemarrerConsultation();
         //testerRechercheClient();         // Question 6
         //testerListeClients();            // Question 7
         //testerAuthentificationClient();  // Question 8
@@ -309,6 +316,31 @@ public class Main {
         }
         em.close();
     }
+    
+    private static void initialiserMediums() {
+       System.out.println();
+        System.out.println("**** initialiserMediums() ****");
+        System.out.println();
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
+        EntityManager em = emf.createEntityManager();
+        Date d = new GregorianCalendar(2007, 1, 1).getTime();
+        Astrologue m1 = new Astrologue("Henry", Sexe.M, "Je suis henry", d, "Grande ecole d'astrologues", new ArrayList<>(), Medium.Statut.LIBRE);
+        Medium m2 = new Cartomancien("Patrick", Sexe.M, "Bonjour je suis Patrick votre voyant préféré", new ArrayList<>(), Medium.Statut.LIBRE);
+        Medium m3 = new Spirite("Sylvie", Sexe.F, "Bonjour je suis Sylvie de la compta, j'ai réglé toutes vos factures", "Machine à écrire", new ArrayList<>(), Medium.Statut.LIBRE);
+        
+        try {
+            em.getTransaction().begin();
+            em.persist(m1);
+            em.persist(m2);
+            em.persist(m3);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            em.getTransaction().rollback();
+        }
+        em.close();
+    }
 
     public static void testerInscriptionClient() {
 
@@ -545,4 +577,6 @@ public class Main {
         System.out.println();
 
     }
+
+    
 }
