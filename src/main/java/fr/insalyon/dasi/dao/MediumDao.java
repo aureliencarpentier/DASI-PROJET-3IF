@@ -41,4 +41,5 @@ public class MediumDao {
         m.setStatut(statut);
         em.getTransaction().commit();
     }
+    
 }

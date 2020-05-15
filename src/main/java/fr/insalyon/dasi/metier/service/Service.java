@@ -15,7 +15,6 @@ import fr.insalyon.dasi.metier.modele.Employe;
 import fr.insalyon.dasi.metier.modele.Medium;
 import fr.insalyon.dasi.metier.modele.ProfilAstral;
 import fr.insalyon.dasi.metier.modele.Sexe;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -126,6 +125,20 @@ public class Service {
         }
         return resultat;
     }
+    
+    public List<Medium> listerMediums() {
+        List<Medium> resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            resultat =mediumDao.listerMediums();
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listerMediums()", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
 
     public Employe connecterEmploye(String mail, String motDePasse) {
         Employe resultat = null;
@@ -182,9 +195,11 @@ public class Service {
         return res;
     }
 
-    public Long demanderConsultation(Client client, Medium medium) {
+    public Long demanderConsultation(Long clientId, Long mediumId) {
         JpaUtil.creerContextePersistance();
         Long id = null;
+        Medium medium = mediumDao.chercherParId(mediumId); 
+        Client client = clientDao.chercherParId(clientId);
         Employe employe = employeDao.chercherEmployePourConsultation(medium.getGenre());
 
         // Check si il y a un employe de disponible
@@ -308,4 +323,6 @@ public class Service {
         }
         return nb;
     }
+    
+    
 }
