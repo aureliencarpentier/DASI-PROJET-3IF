@@ -38,9 +38,10 @@ public class Main {
 
         //initialiserClients();            // Question 3
         //initialiserEmployes();
-        initialiserMediums();
+        //initialiserMediums();
         //testerInscriptionClient();       // Question 4 & 5
         //testerModifierClient();
+        testerAuthentificationClient();
 
         //testerTerminerConsultation();
 
@@ -125,8 +126,13 @@ public class Main {
         em.persist(medium);
         em.getTransaction().commit();
         emf.close();
+<<<<<<< HEAD
         Long mediumId = medium.getId();
         Long consultationId = service.demanderConsultation(idPierre, mediumId);
+=======
+
+        Long consultationId = service.demanderConsultation(pierre.getId(), medium.getId());
+>>>>>>> af0118f9df79182ac0c8913ed1d0bcebfbc81b4d
 
         if (consultationId != null) {
             System.out.println("> Succès demande consultation");
@@ -437,8 +443,8 @@ public class Main {
         String mail;
         String motDePasse;
 
-        mail = "pierre@insa-lyon.fr";
-        motDePasse = "pierre123";
+        mail = "ada.lovelace@insa-lyon.fr";
+        motDePasse = "Ada1012";
         client = service.connecterClient(mail, motDePasse);
         if (client != null) {
             System.out.println("Authentification réussie avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
