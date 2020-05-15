@@ -15,6 +15,8 @@ import fr.insalyon.dasi.metier.modele.Employe;
 import fr.insalyon.dasi.metier.modele.Medium;
 import fr.insalyon.dasi.metier.modele.ProfilAstral;
 import fr.insalyon.dasi.metier.modele.Sexe;
+import fr.insalyon.dasi.utils.AstroAPI;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -125,12 +127,12 @@ public class Service {
         }
         return resultat;
     }
-    
+
     public List<Medium> listerMediums() {
         List<Medium> resultat = null;
         JpaUtil.creerContextePersistance();
         try {
-            resultat =mediumDao.listerMediums();
+            resultat = mediumDao.listerMediums();
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listerMediums()", ex);
             resultat = null;
@@ -198,7 +200,7 @@ public class Service {
     public Long demanderConsultation(Long clientId, Long mediumId) {
         JpaUtil.creerContextePersistance();
         Long id = null;
-        Medium medium = mediumDao.chercherParId(mediumId); 
+        Medium medium = mediumDao.chercherParId(mediumId);
         Client client = clientDao.chercherParId(clientId);
         Employe employe = employeDao.chercherEmployePourConsultation(medium.getGenre());
 
@@ -314,7 +316,7 @@ public class Service {
         }
         return nb;
     }
-    
+
     public Map<Employe, Integer> repartitionClientParEmploye() {
         List<Employe> employes = employeDao.listerEmployes();
         Map<Employe, Integer> nb = new HashMap<>();
@@ -324,5 +326,18 @@ public class Service {
         return nb;
     }
     
-    
+    public ProfilAstral getProfilAstralFromAPI(String nom, Date date)
+    {
+        AstroAPI astro = new AstroAPI();
+        List<String> profilAstroFromAPI;
+        ProfilAstral profil = null;
+        try {
+            profilAstroFromAPI = astro.getProfil(nom, date);
+            profil = new ProfilAstral(profilAstroFromAPI.get(0), profilAstroFromAPI.get(1), profilAstroFromAPI.get(2), profilAstroFromAPI.get(3));
+        } catch (IOException ex) {
+            Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return profil; 
+    }
+
 }
