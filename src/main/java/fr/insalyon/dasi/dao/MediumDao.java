@@ -30,7 +30,7 @@ public class MediumDao {
 
     public List<Medium> listerMediums() {
         EntityManager em = JpaUtil.obtenirContextePersistance();
-        TypedQuery<Medium> query = em.createQuery("SELECT c FROM Client c ORDER BY c.nom ASC, c.prenom ASC", Medium.class);
+        TypedQuery<Medium> query = em.createQuery("SELECT m FROM Medium m", Medium.class);
         return query.getResultList();
     }
 

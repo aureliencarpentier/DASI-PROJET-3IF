@@ -126,13 +126,9 @@ public class Main {
         em.persist(medium);
         em.getTransaction().commit();
         emf.close();
-<<<<<<< HEAD
-        Long mediumId = medium.getId();
-        Long consultationId = service.demanderConsultation(idPierre, mediumId);
-=======
 
         Long consultationId = service.demanderConsultation(pierre.getId(), medium.getId());
->>>>>>> af0118f9df79182ac0c8913ed1d0bcebfbc81b4d
+
 
         if (consultationId != null) {
             System.out.println("> Succès demande consultation");
