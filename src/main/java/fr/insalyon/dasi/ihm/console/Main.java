@@ -128,15 +128,6 @@ public class Main {
         em.persist(medium);
         em.getTransaction().commit();
         emf.close();
-<<<<<<< HEAD
-
-=======
-<<<<<<< HEAD
-
-=======
->>>>>>> 0ca51f5c18b2a25fa866d86ea95bcaf507fc31a2
->>>>>>> d21d6835c2090bfb40a6ff8122ead2434a7f42d1
-
         Long consultationId = service.demanderConsultation(pierre.getId(), medium.getId());
 
 
@@ -446,7 +437,7 @@ public class Main {
 
         Service service = new Service();
         // System.out.println("nb cons : " + service.nombreConsultationParMedium());
-        List<Medium> listeMediums = service.listerMediums();
+        List<Medium> listeMediums = service.listerMediums(Sexe.F , true, true, true);
         System.out.println("*** Liste des mediums ***");
         if (listeMediums != null) {
             for (Medium m : listeMediums) {
