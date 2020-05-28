@@ -64,6 +64,20 @@ public class Service {
         }
         return verification;
     }
+    
+    public Consultation rechercherConsultationParId(Long id) {
+        Consultation resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            resultat = consultationDao.chercherParId(id);
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service rechercherClientParId(id)", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
 
     public Employe rechercherEmployeParId(Long id) {
         Employe resultat = null;
