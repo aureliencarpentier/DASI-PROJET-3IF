@@ -342,7 +342,7 @@ public class Service {
         JpaUtil.creerContextePersistance();
         Map<Medium, Integer> nb = null;
         try {
-            List<Medium> mediums = mediumDao.listerMediums();
+            List<Medium> mediums = mediumDao.listerMediums(Sexe.F, true, true, true);
             nb = new HashMap<>();
             if (mediums != null) {
                 for (int i = 0; i < mediums.size(); i++) {

@@ -1,0 +1,359 @@
+[33mcommit 3a8a008710b5d05c5a598c3c392547005460925c[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: unknown <mariolopesgancarski@gmail.com>
+Date:   Thu May 28 19:34:19 2020 +0200
+
+    afficher medium sauf carousel v2
+
+[33mcommit 9dc87d9c6e37f05f9465af9fe5e8c34348c11c15[m
+Merge: c53b194 d21d683
+Author: unknown <mariolopesgancarski@gmail.com>
+Date:   Thu May 28 19:32:41 2020 +0200
+
+    afficher medium sauf carousel
+
+[33mcommit c53b1942981e6fc33b6f8bc6cbeee0c3f0886b03[m
+Author: unknown <mariolopesgancarski@gmail.com>
+Date:   Thu May 28 19:32:04 2020 +0200
+
+    afficher medium sauf carousel
+
+[33mcommit d21d6835c2090bfb40a6ff8122ead2434a7f42d1[m
+Merge: 4614ba4 0ca51f5
+Author: unknown <mariolopesgancarski@gmail.com>
+Date:   Thu May 28 18:48:11 2020 +0200
+
+    bug
+
+[33mcommit 4614ba48c6f86654fa43efbccb3615eb761ed5f2[m
+Author: unknown <mariolopesgancarski@gmail.com>
+Date:   Thu May 28 18:46:59 2020 +0200
+
+    .
+
+[33mcommit 0ca51f5c18b2a25fa866d86ea95bcaf507fc31a2[m
+Author: Aurelien Carpentier <aurecarp@live.fr>
+Date:   Thu May 28 16:12:25 2020 +0200
+
+    Correction des services pour les statistiques
+
+[33mcommit 9208868464ae461653a153a6adf280770c69896a[m
+Author: Aurelien Carpentier <aurecarp@live.fr>
+Date:   Mon May 25 18:16:47 2020 +0200
+
+    modif service
+
+[33mcommit c2f65645ce6de07de9814b2135ef3f3dccb91904[m
+Author: Aurelien <aurelien.carpentier99@gmail.com>
+Date:   Sat May 23 23:06:35 2020 +0200
+
+    correction du service listerMediums
+
+[33mcommit d862133171b123d2910bc475722ed6b06211f879[m
+Merge: dbdf9ef af0118f
+Author: unknown <mariolopesgancarski@gmail.com>
+Date:   Fri May 15 18:27:15 2020 +0100
+
+    fin de seance (je continue apres)
+
+[33mcommit dbdf9efb2b39d873b4bde2eefa486d95dd8d4112[m
+Author: unknown <mariolopesgancarski@gmail.com>
+Date:   Fri May 15 18:26:18 2020 +0100
+
+    fin de seance (je continue apres)
+
+[33mcommit 4a8b6a1b2ca8e23338b9f9a67d507e441dc606e9[m
+Author: unknown <mariolopesgancarski@gmail.com>
+Date:   Fri May 15 17:16:01 2020 +0100
+
+     a
+
+[33mcommit af0118f9df79182ac0c8913ed1d0bcebfbc81b4d[m
+Author: Aurelien Carpentier <aurecarp@live.fr>
+Date:   Fri May 15 18:14:11 2020 +0200
+
+    modif
+
+[33mcommit 0d2b0f2de39745305c6828339a7b822dfe719b98[m
+Author: Aurelien Carpentier <aurecarp@live.fr>
+Date:   Fri May 15 16:03:51 2020 +0200
+
+    modif
+
+[33mcommit fdb95819573bb3d58d1a9b4dbc870dde6c762f86[m
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 17 19:50:43 2020 +0200
+
+    rendu 2
+
+[33mcommit 7e2dbc5a1dc740924093ce2a128479a550b429be[m
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 17 19:11:42 2020 +0200
+
+    Re-structuration du code
+
+[33mcommit f068fb488398339e89a8fe7293ecf958a7ada8f8[m
+Merge: ef95b24 46e7428
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 17 17:59:30 2020 +0200
+
+    Merge branch 'master' of https://github.com/aureliencarpentier/DASI-PROJET-3IF
+
+[33mcommit ef95b24b10119ca19a770a9de5c61209edd6f6aa[m
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 17 17:57:51 2020 +0200
+
+    Ajout de chercherEmployePourConsultation
+
+[33mcommit 46e7428d5b0737bc06295485ba70ca436d146370[m
+Merge: ea2923c 9cafcd3
+Author: Zenchaineur <mariolopesgancarski@gmail.com>
+Date:   Fri Apr 17 17:06:58 2020 +0200
+
+    Merge branch 'master' of https://github.com/aureliencarpentier/DASI-PROJET-3IF
+
+[33mcommit ea2923ca1d0518cbb852d9b9156aa25f808930c4[m
+Author: Zenchaineur <mariolopesgancarski@gmail.com>
+Date:   Fri Apr 17 17:06:29 2020 +0200
+
+    cool
+
+[33mcommit 9cafcd312143a185203e058e42f0c1970dfba793[m
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 17 17:02:44 2020 +0200
+
+    Ajout de l'API Astro
+
+[33mcommit 5101200d6810ddfa70629441b937ffcfd90afb33[m
+Merge: 20ebcd6 b89f2d2
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 17 16:17:44 2020 +0200
+
+    fix merging
+
+[33mcommit 20ebcd672e2d87b53394f5a8540081c549c4ff6d[m
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 17 16:03:30 2020 +0200
+
+    Terminerconsultation
+
+[33mcommit b89f2d2d59ff1e3996babf49bcc53af5ad982e6e[m
+Author: Zenchaineur <mariolopesgancarski@gmail.com>
+Date:   Fri Apr 17 15:51:41 2020 +0200
+
+    demarrer consultation et annuler consultation
+
+[33mcommit 45cf23ba2b0767093991ef7fada63111019564bf[m
+Merge: c2d275d e8bacfd
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 17 14:25:51 2020 +0200
+
+    Merge branch 'master' of https://github.com/aureliencarpentier/DASI-PROJET-3IF
+
+[33mcommit c2d275d1bdb691e0e294e0a9446116655f697058[m
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 17 14:25:49 2020 +0200
+
+    fix
+
+[33mcommit e8bacfdf4bf9ab9cfc7cd3f0288357d69101fdc2[m
+Merge: b34c706 d417824
+Author: Zenchaineur <mariolopesgancarski@gmail.com>
+Date:   Fri Apr 17 14:25:09 2020 +0200
+
+    v2
+
+[33mcommit b34c7065a045215b4389aa2685f86f48bd431299[m
+Author: Zenchaineur <mariolopesgancarski@gmail.com>
+Date:   Fri Apr 17 14:21:03 2020 +0200
+
+    v1
+
+[33mcommit d417824a20264666d7bf2b91d7af31cfdde5ca26[m
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 17 13:55:20 2020 +0200
+
+    fix main
+
+[33mcommit 3de71fe0f2757acb80492bb27f2fcdf41bfb0625[m
+Merge: cd5935f e4a41f2
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 17 13:09:34 2020 +0200
+
+    fix merge
+
+[33mcommit e4a41f215a623b47fdcae6c3ac020a44ba3be52d[m
+Author: Zenchaineur <mariolopesgancarski@gmail.com>
+Date:   Fri Apr 10 20:21:04 2020 +0200
+
+    accepter et demander Consultation avec tests dans le main
+
+[33mcommit cd7eb08055413e84ed2acf20247e586f1dfd0124[m
+Author: Zenchaineur <mariolopesgancarski@gmail.com>
+Date:   Fri Apr 10 18:16:57 2020 +0200
+
+    demanderConsultation
+
+[33mcommit cd5935f4d2ae37e9146e6c69117eb339298e3aed[m
+Merge: 976c985 3f89fff
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 10 17:39:17 2020 +0200
+
+    Merge branch 'master' of https://github.com/aureliencarpentier/DASI-PROJET-3IF
+
+[33mcommit 3f89fff4440388922ac43fc19483f20053219211[m
+Author: Zenchaineur <mariolopesgancarski@gmail.com>
+Date:   Fri Apr 10 17:37:52 2020 +0200
+
+    demanderConsultation dans service + consultation un peu modifiée
+
+[33mcommit 976c9859b1a05064eb7d9ed50905e9c1fcb7eded[m
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 10 17:27:27 2020 +0200
+
+    frfr
+
+[33mcommit 06a12efbd5ff166256474fce6c23e2aa8659e734[m
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 10 17:08:21 2020 +0200
+
+    modifier client
+
+[33mcommit 58f5a936d1971e52fad5bd332a11f260ea79e20a[m
+Merge: e223621 8abac4e
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 10 16:18:25 2020 +0200
+
+    Merge branch 'master' of https://github.com/aureliencarpentier/DASI-PROJET-3IF
+
+[33mcommit 8abac4ef27b7c2b352fe7c8cd3b600cec8aaf29a[m
+Author: Zenchaineur <mariolopesgancarski@gmail.com>
+Date:   Fri Apr 10 16:17:56 2020 +0200
+
+    modifierProfilClient dans service
+
+[33mcommit e22362128242405e1bd735ca42eae9d46ff97f43[m
+Merge: 6689d14 669c923
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 10 15:50:15 2020 +0200
+
+    Merge branch 'master' of https://github.com/aureliencarpentier/DASI-PROJET-3IF
+
+[33mcommit 6689d14bc31c6b6e920f60dcd6fa816b33215512[m
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 10 15:50:09 2020 +0200
+
+    creation consultationDao
+
+[33mcommit 669c9235ec4f544463f16db879f651294e5b3c0a[m
+Author: Zenchaineur <mariolopesgancarski@gmail.com>
+Date:   Fri Apr 10 15:48:04 2020 +0200
+
+    mediumDao et amelioration clientDao et EmployeDao
+
+[33mcommit b8aa7d1959c13bb7e9eba25803a4bf78085d4894[m
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 10 15:39:54 2020 +0200
+
+    Creation de profilDao
+
+[33mcommit f7637c80eee17006ef4d2131090cebf0e43e2871[m
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 10 15:34:03 2020 +0200
+
+    frfr
+
+[33mcommit 2b094de34fb02d75cb544dc68d16c7c7a7caffa3[m
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 10 14:44:37 2020 +0200
+
+    fix merging
+
+[33mcommit 0b166af5bec237601e5e281bdb70347fa184a3bd[m
+Merge: 735e4ce 45f187a
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 10 14:36:52 2020 +0200
+
+    fix merging
+
+[33mcommit 45f187ae4665679873525b6248bab81fc651831c[m
+Author: Zenchaineur <mariolopesgancarski@gmail.com>
+Date:   Fri Apr 3 18:56:54 2020 +0200
+
+    Toutes les classes implementees avec Consultation
+
+[33mcommit 735e4ce19822d674c90bf67786230294f8a99f41[m
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 3 17:53:11 2020 +0200
+
+    Add employe and Medium into persistance
+
+[33mcommit f0bc32ea769e475faede2c8a7075ae29bc0b7467[m
+Merge: 69a05b7 8de8873
+Author: Zenchaineur <mariolopesgancarski@gmail.com>
+Date:   Fri Apr 3 17:37:18 2020 +0200
+
+    Merge branch 'master' of https://github.com/aureliencarpentier/DASI-PROJET-3IF
+    ouai
+
+[33mcommit 69a05b757977f0f28358e8743c67226a16885084[m
+Author: Zenchaineur <mariolopesgancarski@gmail.com>
+Date:   Fri Apr 3 17:37:13 2020 +0200
+
+    a
+
+[33mcommit 8de88739ef48cbee3cc6391e26f7f33a08a075ed[m
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 3 17:36:26 2020 +0200
+
+    coorection bugs
+
+[33mcommit cbfa34d3de94fd78ae419985b3ca10463d08b4a2[m
+Merge: 0ba5faa cbef439
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 3 17:24:23 2020 +0200
+
+    Merge branch 'master' of https://github.com/aureliencarpentier/DASI-PROJET-3IF
+    
+    dfver
+
+[33mcommit 0ba5faa1c1a36f151b27655664cf35e11d85b5c1[m
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 3 17:24:20 2020 +0200
+
+    creation medium
+
+[33mcommit cbef439d14d46dbfb2a01230198724c95ef63730[m
+Author: Zenchaineur <mariolopesgancarski@gmail.com>
+Date:   Fri Apr 3 17:23:10 2020 +0200
+
+    Main + client profil astral
+
+[33mcommit a894daa3e6424c1d098d0a6786d439ce2a7ff5f2[m
+Author: Zenchaineur <mariolopesgancarski@gmail.com>
+Date:   Fri Apr 3 16:25:20 2020 +0200
+
+    classe Client avec Profil Astral
+
+[33mcommit 07a4140033855f6679e8e7a219536d31454e6203[m
+Author: Zenchaineur <mariolopesgancarski@gmail.com>
+Date:   Fri Apr 3 15:33:45 2020 +0200
+
+    classe client et énumération Sexe
+
+[33mcommit de218168bd9d4e92da96b9031a55fa9ddef50fd7[m
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 3 12:56:49 2020 +0200
+
+    remove useless directory
+
+[33mcommit 75d4330b742a342822feeff798d39b3f018d787f[m
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 3 12:53:46 2020 +0200
+
+    second commit
+
+[33mcommit 3b03c37f7e7f9ccca7cabee9621790f1fb94c147[m
+Author: Sweetmimike <aurecarp@live.fr>
+Date:   Fri Apr 3 12:46:53 2020 +0200
+
+    first commit

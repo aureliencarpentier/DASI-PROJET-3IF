@@ -434,7 +434,7 @@ public class Main {
 
         Service service = new Service();
         // System.out.println("nb cons : " + service.nombreConsultationParMedium());
-        List<Medium> listeMediums = service.listerMediums();
+        List<Medium> listeMediums = service.listerMediums(Sexe.F , true, true, true);
         System.out.println("*** Liste des mediums ***");
         if (listeMediums != null) {
             for (Medium m : listeMediums) {
