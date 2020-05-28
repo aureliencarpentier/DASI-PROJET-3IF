@@ -65,6 +65,20 @@ public class Service {
         return verification;
     }
 
+    public Employe rechercherEmployeParId(Long id) {
+        Employe resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            resultat = employeDao.chercherParId(id);
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service rechercherClientParId(id)", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
+
     public Client rechercherClientParId(Long id) {
         Client resultat = null;
         JpaUtil.creerContextePersistance();
@@ -309,25 +323,48 @@ public class Service {
     }
 
     public Map<Medium, Integer> nombreConsultationParMedium() {
-        List<Medium> mediums = mediumDao.listerMediums();
-        Map<Medium, Integer> nb = new HashMap<>();
-        for (int i = 0; i < mediums.size(); i++) {
-            nb.put(mediums.get(i), mediums.get(i).getConsultations().size());
+        JpaUtil.creerContextePersistance();
+        Map<Medium, Integer> nb = null;
+        try {
+            List<Medium> mediums = mediumDao.listerMediums();
+            nb = new HashMap<>();
+            if (mediums != null) {
+                for (int i = 0; i < mediums.size(); i++) {
+                    nb.put(mediums.get(i), mediums.get(i).getConsultations().size());
+                }
+            } else {
+                nb = null;
+            }
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listerMediums()", ex);
+            nb = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
         }
+
         return nb;
     }
 
     public Map<Employe, Integer> repartitionClientParEmploye() {
-        List<Employe> employes = employeDao.listerEmployes();
-        Map<Employe, Integer> nb = new HashMap<>();
-        for (int i = 0; i < employes.size(); i++) {
-            nb.put(employes.get(i), employes.get(i).getConsultations().size());
+        JpaUtil.creerContextePersistance();
+        Map<Employe, Integer> nb = null;
+        try {
+            List<Employe> employes = employeDao.listerEmployes();
+            nb = new HashMap<>();
+            for (int i = 0; i < employes.size(); i++) {
+                nb.put(employes.get(i), employes.get(i).getConsultations().size());
+            }
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listerMediums()", ex);
+            nb = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
         }
+
         return nb;
     }
-    
-    public ProfilAstral getProfilAstralFromAPI(String nom, Date date)
-    {
+
+    public ProfilAstral getProfilAstralFromAPI(String nom, Date date) {
         AstroAPI astro = new AstroAPI();
         List<String> profilAstroFromAPI;
         ProfilAstral profil = null;
@@ -337,7 +374,7 @@ public class Service {
         } catch (IOException ex) {
             Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return profil; 
+        return profil;
     }
 
 }

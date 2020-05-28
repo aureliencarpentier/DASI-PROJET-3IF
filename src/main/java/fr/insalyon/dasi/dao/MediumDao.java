@@ -30,8 +30,10 @@ public class MediumDao {
 
     public List<Medium> listerMediums() {
         EntityManager em = JpaUtil.obtenirContextePersistance();
-        TypedQuery<Medium> query = em.createQuery("SELECT c FROM Client c ORDER BY c.nom ASC, c.prenom ASC", Medium.class);
-        return query.getResultList();
+        TypedQuery<Medium> query = em.createQuery("SELECT m FROM Medium m", Medium.class);
+        List<Medium> results = query.getResultList();
+        System.out.println("results lister mediums " + results);
+        return results;
     }
 
     public void modifierStatut(Long mediumId, Statut statut) {
