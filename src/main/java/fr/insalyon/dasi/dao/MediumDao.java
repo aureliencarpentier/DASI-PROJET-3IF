@@ -31,7 +31,9 @@ public class MediumDao {
     public List<Medium> listerMediums() {
         EntityManager em = JpaUtil.obtenirContextePersistance();
         TypedQuery<Medium> query = em.createQuery("SELECT m FROM Medium m", Medium.class);
-        return query.getResultList();
+        List<Medium> results = query.getResultList();
+        System.out.println("results lister mediums " + results);
+        return results;
     }
 
     public void modifierStatut(Long mediumId, Statut statut) {
