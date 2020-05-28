@@ -69,6 +69,7 @@ public class Service {
         Consultation resultat = null;
         JpaUtil.creerContextePersistance();
         try {
+            JpaUtil.ouvrirTransaction();
             resultat = consultationDao.chercherParId(id);
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service rechercherClientParId(id)", ex);
