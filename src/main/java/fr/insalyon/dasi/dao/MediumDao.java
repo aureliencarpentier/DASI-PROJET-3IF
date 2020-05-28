@@ -5,9 +5,14 @@
  */
 package fr.insalyon.dasi.dao;
 
+import fr.insalyon.dasi.metier.modele.Astrologue;
+import fr.insalyon.dasi.metier.modele.Cartomancien;
 import javax.persistence.EntityManager;
 import fr.insalyon.dasi.metier.modele.Medium;
 import fr.insalyon.dasi.metier.modele.Medium.Statut;
+import fr.insalyon.dasi.metier.modele.Sexe;
+import fr.insalyon.dasi.metier.modele.Spirite;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.TypedQuery;
@@ -28,11 +33,45 @@ public class MediumDao {
         return em.find(Medium.class, mediumId); // renvoie null si l'identifiant n'existe pas
     }
 
-    public List<Medium> listerMediums() {
+    public List<Medium> listerMediums(Sexe sexe, Boolean cartomanciens, Boolean spirites, Boolean astrologues) {
         EntityManager em = JpaUtil.obtenirContextePersistance();
-        TypedQuery<Medium> query = em.createQuery("SELECT c FROM Client c ORDER BY c.nom ASC, c.prenom ASC", Medium.class);
-        return query.getResultList();
+        System.out.println("sexe 3:" + sexe);
+        TypedQuery<Medium> query = em.createQuery("SELECT m FROM Medium m WHERE m.genre=:sexechercher", Medium.class);
+        query.setParameter("sexechercher", sexe);
+        ArrayList<Medium> mediumsResultat = new ArrayList<>();
+        if (cartomanciens)
+        {
+            for (Medium m : query.getResultList())
+            {
+                if(m instanceof Cartomancien)
+                {
+            mediumsResultat.add(m);
+                }
+            }
+        }
+        if (astrologues)
+        {
+            for (Medium n : query.getResultList())
+            {
+                if(n instanceof Astrologue)
+                {
+                    mediumsResultat.add(n);
+                }
+            }
+        }
+        if (spirites)
+            {
+            for (Medium o : query.getResultList())
+            {
+                if(o instanceof Spirite)
+                {
+                    mediumsResultat.add(o);
+                }
+            }
+        }
+        return mediumsResultat;   
     }
+    
 
     public void modifierStatut(Long mediumId, Statut statut) {
         Medium m = chercherParId(mediumId);

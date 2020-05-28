@@ -128,11 +128,13 @@ public class Service {
         return resultat;
     }
 
-    public List<Medium> listerMediums() {
+    public List<Medium> listerMediums(Sexe sexe, Boolean cartomanciens, Boolean spirites, Boolean astrologues) {
         List<Medium> resultat = null;
+        System.out.println("sexe 1:" + sexe);
         JpaUtil.creerContextePersistance();
         try {
-            resultat = mediumDao.listerMediums();
+            System.out.println("sexe 2:" + sexe);
+            resultat = mediumDao.listerMediums(sexe, cartomanciens, spirites, astrologues);
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listerMediums()", ex);
             resultat = null;
@@ -309,7 +311,9 @@ public class Service {
     }
 
     public Map<Medium, Integer> nombreConsultationParMedium() {
-        List<Medium> mediums = mediumDao.listerMediums();
+        Sexe sexe = Sexe.F;
+        
+        List<Medium> mediums = mediumDao.listerMediums(sexe, true, true, true);
         Map<Medium, Integer> nb = new HashMap<>();
         for (int i = 0; i < mediums.size(); i++) {
             nb.put(mediums.get(i), mediums.get(i).getConsultations().size());
