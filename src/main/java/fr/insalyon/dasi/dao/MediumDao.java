@@ -32,7 +32,7 @@ public class MediumDao {
         EntityManager em = JpaUtil.obtenirContextePersistance();
         return em.find(Medium.class, mediumId); // renvoie null si l'identifiant n'existe pas
     }
-
+    
     public List<Medium> listerMediums(Sexe sexe, Boolean cartomanciens, Boolean spirites, Boolean astrologues) {
         EntityManager em = JpaUtil.obtenirContextePersistance();
         System.out.println("sexe 3:" + sexe);
@@ -70,6 +70,13 @@ public class MediumDao {
             }
         }
         return mediumsResultat;   
+
+    }
+
+    public List<Medium> listerMediums() {
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        TypedQuery<Medium> query = em.createQuery("SELECT m FROM Medium m", Medium.class);
+        return query.getResultList();   
 
     }
     

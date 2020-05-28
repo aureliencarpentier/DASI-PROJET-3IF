@@ -158,6 +158,20 @@ public class Service {
         return resultat;
     }
 
+    public List<Medium> listerMediums() {
+        List<Medium> resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            resultat = mediumDao.listerMediums();
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listerMediums()", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
+
     public Employe connecterEmploye(String mail, String motDePasse) {
         Employe resultat = null;
         JpaUtil.creerContextePersistance();
@@ -325,14 +339,6 @@ public class Service {
     }
 
     public Map<Medium, Integer> nombreConsultationParMedium() {
-<<<<<<< HEAD
-        Sexe sexe = Sexe.F;
-        
-        List<Medium> mediums = mediumDao.listerMediums(sexe, true, true, true);
-        Map<Medium, Integer> nb = new HashMap<>();
-        for (int i = 0; i < mediums.size(); i++) {
-            nb.put(mediums.get(i), mediums.get(i).getConsultations().size());
-=======
         JpaUtil.creerContextePersistance();
         Map<Medium, Integer> nb = null;
         try {
@@ -350,7 +356,6 @@ public class Service {
             nb = null;
         } finally {
             JpaUtil.fermerContextePersistance();
->>>>>>> d21d6835c2090bfb40a6ff8122ead2434a7f42d1
         }
 
         return nb;

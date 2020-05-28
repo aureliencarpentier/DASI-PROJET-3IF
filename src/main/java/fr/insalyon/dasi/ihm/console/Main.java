@@ -42,9 +42,7 @@ public class Main {
         //testerInscriptionClient();       // Question 4 & 5
         //testerModifierClient();
         //testerAuthentificationClient();
-
         //testerTerminerConsultation();
-
         //testerDemanderConsultation();
         //testerAccepterConsultation();
         //testerAnnulerConsultation();
@@ -55,7 +53,6 @@ public class Main {
         //testerAuthentificationClient();  // Question 8
         //saisirInscriptionClient();       // Question 9
         //saisirRechercheClient();
-        
 
         JpaUtil.destroy();
     }
@@ -128,17 +125,8 @@ public class Main {
         em.persist(medium);
         em.getTransaction().commit();
         emf.close();
-<<<<<<< HEAD
-
-=======
-<<<<<<< HEAD
-
-=======
->>>>>>> 0ca51f5c18b2a25fa866d86ea95bcaf507fc31a2
->>>>>>> d21d6835c2090bfb40a6ff8122ead2434a7f42d1
 
         Long consultationId = service.demanderConsultation(pierre.getId(), medium.getId());
-
 
         if (consultationId != null) {
             System.out.println("> Succès demande consultation");
@@ -167,7 +155,7 @@ public class Main {
         Client pierrebis = new Client("dupont", "pierre", "pierretris@insa-lyon.fr", "pierre123", sexe, "06230", "0655555555", date, profil, consultations);
         Long idPierre = service.inscrireClient(pierrebis);
         Consultation consultation = new Consultation();
-        
+
         /* faute de "creer medium" comme service j'utilise ce bout de code pour pouvoir persister le medium, pour tester le service demanderConsultation*/
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
         EntityManager em = emf.createEntityManager();
@@ -176,7 +164,7 @@ public class Main {
         em.persist(consultation);
         em.getTransaction().commit();
         em.close();
-        
+
         //consultation.setId(esclavebis.getId());
         Long consultationId = consultation.getId();
         Long idConsultationbis = service.accepterConsultation(consultationId);
@@ -215,7 +203,7 @@ public class Main {
         em.close();
         Long clientId = client.getId();
         Long mediumId = medium.getId();
-        
+
         Long consultationId = service.demanderConsultation(clientId, mediumId);
         Long idConsultationbis = service.accepterConsultation(consultationId);
 
@@ -298,10 +286,10 @@ public class Main {
         em.getTransaction().commit();
         Long demarrageId = demarrage.getId();
         Long consultationNonDemarreeId = service.demanderConsultation(clientId, demarrageId);
-        service.accepterConsultation(consultationNonDemarreeId);       
-       
+        service.accepterConsultation(consultationNonDemarreeId);
+
         Long consultationDemarreeId = service.demarrerConsultation(consultationNonDemarreeId);
-         if (consultationDemarreeId != null) {
+        if (consultationDemarreeId != null) {
             System.out.println("> Succès demarrage consultation");
         } else {
             System.out.println("> Échec demarrage consultation");
@@ -331,9 +319,9 @@ public class Main {
         }
         em.close();
     }
-    
+
     private static void initialiserMediums() {
-       System.out.println();
+        System.out.println();
         System.out.println("**** initialiserMediums() ****");
         System.out.println();
 
@@ -343,7 +331,7 @@ public class Main {
         Astrologue m1 = new Astrologue("Henry", Sexe.M, "Je suis henry", d, "Grande ecole d'astrologues", new ArrayList<>(), Medium.Statut.LIBRE);
         Medium m2 = new Cartomancien("Patrick", Sexe.M, "Bonjour je suis Patrick votre voyant préféré", new ArrayList<>(), Medium.Statut.LIBRE);
         Medium m3 = new Spirite("Sylvie", Sexe.F, "Bonjour je suis Sylvie de la compta, j'ai réglé toutes vos factures", "Machine à écrire", new ArrayList<>(), Medium.Statut.LIBRE);
-        
+
         try {
             em.getTransaction().begin();
             em.persist(m1);
@@ -437,7 +425,7 @@ public class Main {
             System.out.println("=> ERREUR...");
         }
     }
-    
+
     public static void testerListeMediums() {
 
         System.out.println();
@@ -452,7 +440,7 @@ public class Main {
             for (Medium m : listeMediums) {
                 System.out.println(m);
             }
-            
+
         } else {
             System.out.println("=> ERREUR...");
         }
@@ -613,5 +601,4 @@ public class Main {
 
     }
 
-    
 }
