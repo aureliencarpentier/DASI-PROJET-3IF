@@ -35,6 +35,7 @@ public class MediumDao {
 
     public List<Medium> listerMediums(Sexe sexe, Boolean cartomanciens, Boolean spirites, Boolean astrologues) {
         EntityManager em = JpaUtil.obtenirContextePersistance();
+<<<<<<< HEAD
         System.out.println("sexe 3:" + sexe);
         TypedQuery<Medium> query = em.createQuery("SELECT m FROM Medium m WHERE m.genre=:sexechercher", Medium.class);
         query.setParameter("sexechercher", sexe);
@@ -70,6 +71,12 @@ public class MediumDao {
             }
         }
         return mediumsResultat;   
+=======
+        TypedQuery<Medium> query = em.createQuery("SELECT m FROM Medium m", Medium.class);
+        List<Medium> results = query.getResultList();
+        System.out.println("results lister mediums " + results);
+        return results;
+>>>>>>> d21d6835c2090bfb40a6ff8122ead2434a7f42d1
     }
     
 

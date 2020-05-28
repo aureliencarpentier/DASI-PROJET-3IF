@@ -41,7 +41,7 @@ public class Main {
         //initialiserMediums();
         //testerInscriptionClient();       // Question 4 & 5
         //testerModifierClient();
-        testerAuthentificationClient();
+        //testerAuthentificationClient();
 
         //testerTerminerConsultation();
 
@@ -51,9 +51,11 @@ public class Main {
         //testerDemarrerConsultation();
         //testerRechercheClient();         // Question 6
         //testerListeClients();            // Question 7
+        testerListeMediums();
         //testerAuthentificationClient();  // Question 8
         //saisirInscriptionClient();       // Question 9
         //saisirRechercheClient();
+        
 
         JpaUtil.destroy();
     }
@@ -126,7 +128,14 @@ public class Main {
         em.persist(medium);
         em.getTransaction().commit();
         emf.close();
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> 0ca51f5c18b2a25fa866d86ea95bcaf507fc31a2
+>>>>>>> d21d6835c2090bfb40a6ff8122ead2434a7f42d1
 
         Long consultationId = service.demanderConsultation(pierre.getId(), medium.getId());
 
@@ -424,6 +433,26 @@ public class Main {
             for (Client client : listeClients) {
                 afficherClient(client);
             }
+        } else {
+            System.out.println("=> ERREUR...");
+        }
+    }
+    
+    public static void testerListeMediums() {
+
+        System.out.println();
+        System.out.println("**** testerListeMediums() ****");
+        System.out.println();
+
+        Service service = new Service();
+        // System.out.println("nb cons : " + service.nombreConsultationParMedium());
+        List<Medium> listeMediums = service.listerMediums();
+        System.out.println("*** Liste des mediums ***");
+        if (listeMediums != null) {
+            for (Medium m : listeMediums) {
+                System.out.println(m);
+            }
+            
         } else {
             System.out.println("=> ERREUR...");
         }
