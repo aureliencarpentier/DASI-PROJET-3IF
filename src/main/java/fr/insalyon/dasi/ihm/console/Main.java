@@ -23,6 +23,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import jdk.jfr.internal.LogLevel;
+import jdk.jfr.internal.LogTag;
+import jdk.jfr.internal.Logger;
 
 /**
  *
@@ -39,6 +42,7 @@ public class Main {
         //initialiserClients();            // Question 3
         //initialiserEmployes();
         //initialiserMediums();
+        initialiserScenario();
         //testerInscriptionClient();       // Question 4 & 5
         //testerModifierClient();
         //testerAuthentificationClient();
@@ -49,12 +53,47 @@ public class Main {
         //testerDemarrerConsultation();
         //testerRechercheClient();         // Question 6
         //testerListeClients();            // Question 7
-        testerListeMediums();
+        //testerListeMediums();
         //testerAuthentificationClient();  // Question 8
         //saisirInscriptionClient();       // Question 9
         //saisirRechercheClient();
 
         JpaUtil.destroy();
+    }
+
+    public static void initialiserScenario() {
+        Service service = new Service();
+        initialiserClients();
+        Employe employe1 = new Employe("Dupont", "Claude", "claude@gmail.com", Sexe.M, "0698979695", "test", 0, Employe.Statut.LIBRE, new ArrayList<>());
+        Employe employe2 = new Employe("Zola", "Marie", "marie@gmail.com", Sexe.F, "0698979695", "test", 0, Employe.Statut.LIBRE, new ArrayList<>());
+        Employe employe3 = new Employe("Hatik", "Richard", "richard@gmail.com", Sexe.M, "0698979695", "test", 0, Employe.Statut.LIBRE, new ArrayList<>());
+
+        Medium medium1 = new Astrologue("Irma", Sexe.F, "Bonjour je suis madame irma", new Date(), "formation de l'école de medium", new ArrayList<Consultation>(), Medium.Statut.LIBRE);
+        Medium medium2 = new Cartomancien("Adèle", Sexe.F, "Bonjour je suis Adèle", new ArrayList<Consultation>(), Medium.Statut.LIBRE);
+        Medium medium3 = new Spirite("Compte de Cagliostro", Sexe.M, "Bonjour je suis le Compte de Cagliostro", "boule de cristal", new ArrayList<Consultation>(), Medium.Statut.LIBRE);
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PredictifTP");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            em.getTransaction().begin();
+            em.persist(employe1);
+            em.persist(employe2);
+            em.persist(employe3);
+            em.persist(medium1);
+            em.persist(medium2);
+            em.persist(medium3);
+            em.getTransaction().commit();
+            em.close();
+        } catch (Exception e) {
+            Logger.log(LogTag.JFR, LogLevel.TRACE, e.getMessage());
+        }
+        
+        Client c = service.rechercherClientParEmail("ada.lovelace@insa-lyon.fr");
+        Long id = service.demanderConsultation(c.getId(), medium1.getId());
+        Consultation consultation1 = service.rechercherConsultationParId(id);
+        
+        service.accepterConsultation(consultation1.getId());
     }
 
     public static void afficherClient(Client client) {
@@ -434,7 +473,7 @@ public class Main {
 
         Service service = new Service();
         // System.out.println("nb cons : " + service.nombreConsultationParMedium());
-        List<Medium> listeMediums = service.listerMediums(Sexe.F , true, true, true);
+        List<Medium> listeMediums = service.listerMediums(Sexe.F, true, true, true);
         System.out.println("*** Liste des mediums ***");
         if (listeMediums != null) {
             for (Medium m : listeMediums) {

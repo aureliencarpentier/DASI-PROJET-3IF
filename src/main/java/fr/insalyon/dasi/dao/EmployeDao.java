@@ -50,7 +50,7 @@ public class EmployeDao {
         Employe e = chercherParId(employeId);
         
         EntityManager em = JpaUtil.obtenirContextePersistance();
-        //em.getTransaction().begin();
+        em.getTransaction().begin();
         e.setStatut(statut);
         em.getTransaction().commit();
     }

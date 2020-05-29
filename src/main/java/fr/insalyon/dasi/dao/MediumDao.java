@@ -32,54 +32,42 @@ public class MediumDao {
         EntityManager em = JpaUtil.obtenirContextePersistance();
         return em.find(Medium.class, mediumId); // renvoie null si l'identifiant n'existe pas
     }
-    
+
     public List<Medium> listerMediums(Sexe sexe, Boolean cartomanciens, Boolean spirites, Boolean astrologues) {
         EntityManager em = JpaUtil.obtenirContextePersistance();
         System.out.println("sexe 3:" + sexe);
         TypedQuery<Medium> query = em.createQuery("SELECT m FROM Medium m WHERE m.genre=:sexechercher", Medium.class);
         query.setParameter("sexechercher", sexe);
+        List<Medium> results = query.getResultList();
         ArrayList<Medium> mediumsResultat = new ArrayList<>();
-        if (cartomanciens)
-        {
-            for (Medium m : query.getResultList())
-            {
-                if(m instanceof Cartomancien)
-                {
-            mediumsResultat.add(m);
+
+        for (Medium m : results) {
+            if (cartomanciens) {
+                if (m instanceof Cartomancien) {
+                    mediumsResultat.add(m);
+                }
+            }
+            if (astrologues) {
+                if (m instanceof Astrologue) {
+                    mediumsResultat.add(m);
+                }
+            }
+            if (spirites) {
+                if (m instanceof Spirite) {
+                    mediumsResultat.add(m);
                 }
             }
         }
-        if (astrologues)
-        {
-            for (Medium n : query.getResultList())
-            {
-                if(n instanceof Astrologue)
-                {
-                    mediumsResultat.add(n);
-                }
-            }
-        }
-        if (spirites)
-            {
-            for (Medium o : query.getResultList())
-            {
-                if(o instanceof Spirite)
-                {
-                    mediumsResultat.add(o);
-                }
-            }
-        }
-        return mediumsResultat;   
+        return mediumsResultat;
 
     }
 
     public List<Medium> listerMediums() {
         EntityManager em = JpaUtil.obtenirContextePersistance();
         TypedQuery<Medium> query = em.createQuery("SELECT m FROM Medium m", Medium.class);
-        return query.getResultList();   
+        return query.getResultList();
 
     }
-    
 
     public void modifierStatut(Long mediumId, Statut statut) {
         Medium m = chercherParId(mediumId);
@@ -88,5 +76,5 @@ public class MediumDao {
         m.setStatut(statut);
         em.getTransaction().commit();
     }
-    
+
 }

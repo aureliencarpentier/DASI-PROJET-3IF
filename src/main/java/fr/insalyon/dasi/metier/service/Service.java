@@ -64,7 +64,7 @@ public class Service {
         }
         return verification;
     }
-    
+
     public Consultation rechercherConsultationParId(Long id) {
         Consultation resultat = null;
         JpaUtil.creerContextePersistance();
@@ -99,6 +99,20 @@ public class Service {
         JpaUtil.creerContextePersistance();
         try {
             resultat = clientDao.chercherParId(id);
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service rechercherClientParId(id)", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
+
+    public Medium rechercherMediumParId(Long id) {
+        Medium resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            resultat = mediumDao.chercherParId(id);
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service rechercherClientParId(id)", ex);
             resultat = null;
@@ -262,6 +276,23 @@ public class Service {
             consultationDao.creer(consultation);
             JpaUtil.validerTransaction();
             id = consultation.getId();
+            if (id != null) {
+                try {
+                    JpaUtil.ouvrirTransaction();
+                    client.getConsultations().add(consultation);
+                    employe.getConsultations().add(consultation);
+                    medium.getConsultations().add(consultation);
+                    employe.setNombreConsultation(employe.getNombreConsultation() + 1);
+                    JpaUtil.validerTransaction();
+                } catch (Exception ex) {
+                    Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service terminerConsultation()", ex);
+                }
+
+                //JpaUtil.ouvrirTransaction();
+                employeDao.modifierStatut(employe.getId(), Employe.Statut.OCCUPE);
+                mediumDao.modifierStatut(medium.getId(), Medium.Statut.OCCUPE);
+                //JpaUtil.validerTransaction();
+            }
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service demanderConsultation()", ex);
             JpaUtil.annulerTransaction();
@@ -297,7 +328,9 @@ public class Service {
 
         boolean res = false;
         try {
+            JpaUtil.ouvrirTransaction();
             res = consultationDao.terminerConsultation(consultationId);
+            JpaUtil.validerTransaction();
         } catch (Exception ex) {
             Logger.getLogger(Service.class.getName()).log(Level.SEVERE, "Exception lors de l'appel au Service terminerConsultation()", ex);
         }
@@ -327,6 +360,21 @@ public class Service {
         try {
             JpaUtil.ouvrirTransaction();
             consultationDao.annulerConsultation(consultationId);
+            Consultation c = rechercherConsultationParId(consultationId);
+            Client client = rechercherClientParId(c.getClient().getId());
+            Employe e = rechercherEmployeParId(c.getEmploye().getId());
+            Medium m = rechercherMediumParId(c.getMedium().getId());
+
+            JpaUtil.ouvrirTransaction();
+            client.getConsultations().add(c);
+            e.getConsultations().add(c);
+            m.getConsultations().add(c);
+            e.setNombreConsultation(e.getNombreConsultation() + 1);
+            JpaUtil.validerTransaction();
+
+            employeDao.modifierStatut(e.getId(), Employe.Statut.LIBRE);
+            mediumDao.modifierStatut(m.getId(), Medium.Statut.LIBRE);
+
             JpaUtil.validerTransaction();
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service annulerConsultation()", ex);
