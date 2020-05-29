@@ -176,7 +176,7 @@ public class Service {
         System.out.println("sexe 1:" + sexe);
         JpaUtil.creerContextePersistance();
         try {
-            System.out.println("sexe 2:" + sexe);
+            //System.out.println("sexe 2:" + sexe);
             resultat = mediumDao.listerMediums(sexe, cartomanciens, spirites, astrologues);
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listerMediums()", ex);
